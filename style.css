@@ -793,3 +793,27 @@ footer{
     font-weight:500;
 
 }
+
+/* ==========================================================
+   News
+   ========================================================== */
+
+.news-item{
+
+    margin-bottom:28px;
+
+}
+
+.news-item:last-child{
+
+    margin-bottom:0;
+
+}
+
+.news-item strong{
+
+    color:var(--primary);
+
+    font-weight:600;
+
+}
