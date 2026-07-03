@@ -773,3 +773,23 @@ footer{
     }
 
 }
+
+/* ===================================================== */
+
+.conference-item{
+
+    margin-bottom:40px;
+
+}
+
+.conference-item p{
+
+    margin-bottom:8px;
+
+}
+
+.conference-item a{
+
+    font-weight:500;
+
+}
