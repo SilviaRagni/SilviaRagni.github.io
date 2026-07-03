@@ -676,3 +676,56 @@ footer{
     padding-top:30px;
 
 }
+/* ==========================================================
+
+   Publications
+
+========================================================== */
+
+#publications{
+
+    margin-top:45px;
+
+}
+
+.publication{
+
+    margin-bottom:40px;
+
+}
+
+.publication-title{
+
+    font-weight:600;
+
+    font-size:1.1rem;
+
+}
+
+.publication-authors{
+
+    color:var(--muted);
+
+    margin-top:6px;
+
+}
+
+.publication-journal{
+
+    margin-top:8px;
+
+    font-style:italic;
+
+}
+
+.publication-links{
+
+    margin-top:10px;
+
+}
+
+.publication-links a{
+
+    margin-right:18px;
+
+}
