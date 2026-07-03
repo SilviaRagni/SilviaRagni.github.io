@@ -1,0 +1,56 @@
+{
+  "talks": [
+    {
+      "date": "2026",
+      "title": "Reconstruction of F-cohomological field theories on moduli of compact type",
+      "event": "Matamzee 2026",
+      "location": "",
+      "website": "",
+      "slides": "files/talks/matamzee2026.pdf"
+    }
+  ],
+
+  "travels": [
+    {
+      "date": "2026",
+      "conference": "Regular Program on Geometry and Physics",
+      "location": "ICTS, Bengaluru, India",
+      "website": "https://www.icts.res.in/program/regp-2026"
+    },
+
+    {
+      "date": "2026",
+      "conference": "Simons School on Moduli of Curves, Abelian Varieties and K3 Surfaces",
+      "location": "Rényi Institute, Budapest, Hungary",
+      "website": "https://erdoscenter.renyi.hu/events/simons-school-moduli-curves-abelian-varieties-and-k3-surfaces"
+    },
+
+    {
+      "date": "2026",
+      "conference": "GERCAT 2026",
+      "location": "Catania, Italy",
+      "website": "https://sites.google.com/view/gercatd26"
+    },
+
+    {
+      "date": "2026",
+      "conference": "A Celebration of Women in Mathematics",
+      "location": "Berlin, Germany",
+      "website": "https://sites.google.com/view/a-celebration-of-women-in-math/startseite"
+    },
+
+    {
+      "date": "2026",
+      "conference": "Algebraic Geometry in Hannover",
+      "location": "Hannover, Germany",
+      "website": "https://konferenz.uni-hannover.de/event/173/"
+    },
+
+    {
+      "date": "2026",
+      "conference": "Incontro dei Ricercatori di Algebra e Geometria",
+      "location": "Italy",
+      "website": "https://sites.google.com/view/ricercatorialgeometria/home"
+    }
+  ]
+}
