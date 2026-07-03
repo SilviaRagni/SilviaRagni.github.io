@@ -729,3 +729,47 @@ footer{
     margin-right:18px;
 
 }
+
+/* ==========================================================
+   CV
+   ========================================================== */
+
+.cv-item{
+
+    display:grid;
+
+    grid-template-columns:140px 1fr;
+
+    gap:40px;
+
+    margin-bottom:60px;
+
+}
+
+.cv-year{
+
+    color:var(--primary);
+
+    font-weight:600;
+
+}
+
+.cv-content p{
+
+    margin-top:12px;
+
+}
+
+@media (max-width:700px){
+
+    .cv-item{
+
+        grid-template-columns:1fr;
+
+        gap:10px;
+
+        margin-bottom:45px;
+
+    }
+
+}
