@@ -328,10 +328,10 @@ section{
     width:60%;
     height:320px;
     object-fit:cover;
-    object-position:center 25%;
+    object-position:center 30%;
 
     display:block;
-    margin:40px auto;
+    margin:30px auto 10px auto;
     border-radius:10px;
 
 }
