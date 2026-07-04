@@ -323,13 +323,13 @@ section{
 
 }
 
-.sailing img{
+.sailing{
 
     width:70%;
-    height:auto;
     display:block;
     margin:40px auto;
     border-radius:10px;
+
 }
 
 /* ==========================================================
