@@ -323,16 +323,13 @@ section{
 
 }
 
-.kayak img{
+.sailing img{
 
-    width:100%;
-
-    height:420px;
-
-    object-fit:cover;
-
-    object-position:center 65%;
-
+    width:70%;
+    height:auto;
+    display:block;
+    margin:40px auto;
+    border-radius:10px;
 }
 
 /* ==========================================================
