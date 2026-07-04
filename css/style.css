@@ -560,7 +560,7 @@ footer{
 
     }
 
-    .kayak img{
+    .sailing img{
 
         height:260px;
 
@@ -595,7 +595,7 @@ nav a,
 }
 
 .hero-image img,
-.kayak img,
+.sailing img,
 .mountain img{
 
     transition:transform .35s ease;
@@ -603,7 +603,7 @@ nav a,
 }
 
 .hero-image img:hover,
-.kayak img:hover,
+.sailing img:hover,
 .mountain img:hover{
 
     transform:scale(1.01);
