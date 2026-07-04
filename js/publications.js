@@ -3,10 +3,10 @@ async function loadPublications() {
     const container = document.getElementById("publications");
 
     try {
-
-        const response = await fetch(
-            "https://api.zotero.org/users/ragnis/publications/items?v=3&format=json"
-        );
+        
+    const response = await fetch(
+        "https://api.zotero.org/users/16370800/publications/items?v=3&format=json"
+    );
 
         const data = await response.json();
 
