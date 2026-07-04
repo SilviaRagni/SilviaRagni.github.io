@@ -323,15 +323,18 @@ section{
 
 }
 
-.sailing{
+.sailing img{
 
-    width:70%;
+    width:65%;
+    height:340px;
+    object-fit:cover;
+    object-position:center 35%;
+
     display:block;
     margin:40px auto;
     border-radius:10px;
 
 }
-
 /* ==========================================================
    News + Contact
    ========================================================== */
