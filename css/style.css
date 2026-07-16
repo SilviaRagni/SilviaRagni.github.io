@@ -319,14 +319,18 @@ section{
 }
 
 .sailing img{
-    width:58%;
-    max-width:650px;
-    height:auto;
+
+    width:60%;
+    height:300px;
+
+    object-fit:cover;
+    object-position:center 15%;
 
     display:block;
     margin:0 auto;
 
     border-radius:10px;
+
 }
 /* ==========================================================
    News + Contact
