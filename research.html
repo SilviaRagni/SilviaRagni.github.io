@@ -63,14 +63,13 @@
 
 <!-- Script di integrazione diretta con Zotero -->
 <!-- Script di integrazione avanzata stile "al-folio" con Zotero -->
+<!-- Script aggiornato: tutti i nomi degli autori hanno lo stesso stile uniforme -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
 
-        // Chiediamo i dati grezzi JSON a Zotero (invece dell'HTML pre-formattato)
         const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
-
         const container = document.getElementById("publications");
 
         fetch(url, {
@@ -86,14 +85,14 @@
                 return;
             }
 
-            // 1. Raggruppiamo le pubblicazioni per anno
             const publicationsByYear = {};
 
             data.forEach(item => {
                 const meta = item.data;
                 
-                // Estraiamo l'anno dalla data di pubblicazione
-                let year = "Preprints"; // Default se non c'è una data definita
+                // Fallback all'anno corrente se non c'è una data di pubblicazione ufficiale
+                let year = new Date().getFullYear().toString(); 
+                
                 if (meta.date) {
                     const match = meta.date.match(/\b(19|20)\d{2}\b/);
                     if (match) year = match[0];
@@ -105,14 +104,9 @@
                 publicationsByYear[year].push(meta);
             });
 
-            // 2. Ordiniamo gli anni in modo decrescente (mettendo "Preprints" in cima se esiste)
-            const sortedYears = Object.keys(publicationsByYear).sort((a, b) => {
-                if (a === "Preprints") return -1;
-                if (b === "Preprints") return 1;
-                return b - a;
-            });
+            // Ordiniamo gli anni dal più recente al più vecchio
+            const sortedYears = Object.keys(publicationsByYear).sort((a, b) => b - a);
 
-            // 3. Generiamo l'HTML stile Yannik Schuler (due colonne: anno | pubblicazioni)
             let htmlOutput = '<div class="publications-timeline">';
 
             sortedYears.forEach(year => {
@@ -124,7 +118,6 @@
                 `;
 
                 publicationsByYear[year].forEach((pub, index) => {
-                    // Costruiamo la stringa degli autori
                     let authorsStr = "";
                     if (pub.creators) {
                         const authors = pub.creators
@@ -132,20 +125,17 @@
                             .map(c => `${c.firstName} ${c.lastName}`);
                         
                         if (authors.length > 0) {
+                            // Mantiene i nomi degli autori esattamente come inseriti su Zotero, senza grassetti aggiuntivi
                             authorsStr = authors.join(", ");
-                            // Evidenziamo il tuo nome in grassetto
-                            authorsStr = authorsStr.replace(/Silvia Ragni/g, "<strong>Silvia Ragni</strong>");
                         }
                     }
 
-                    // Recuperiamo titolo, rivista/editore e link
                     const title = pub.title || "Untitled";
                     const journal = pub.publicationTitle || pub.publisher || "";
                     const urlLink = pub.url || "";
                     const doi = pub.DOI || "";
                     const abstract = pub.abstractNote || "";
                     
-                    // ID unico per mostrare/nascondere l'abstract
                     const abstractId = `abs-${year}-${index}`;
 
                     htmlOutput += `
@@ -155,14 +145,12 @@
                                 <span class="pub-authors">${authorsStr}</span>. 
                                 ${journal ? `<span class="pub-journal"><em>${journal}</em></span>.` : ""}
                                 
-                                <!-- Bottoni/Link in stile Schuler -->
                                 <div class="pub-links">
                                     ${abstract ? `<a href="javascript:void(0)" class="pub-btn" onclick="toggleAbstract('${abstractId}')">Abs</a>` : ""}
                                     ${urlLink ? `<a href="${urlLink}" target="_blank" class="pub-btn">Link</a>` : ""}
                                     ${doi ? `<a href="https://doi.org/${doi}" target="_blank" class="pub-btn">DOI</a>` : ""}
                                 </div>
 
-                                <!-- Box dell'abstract nascosto di default -->
                                 ${abstract ? `<div id="${abstractId}" class="pub-abstract" style="display:none;">${abstract}</div>` : ""}
                             </div>
                         </li>
@@ -185,7 +173,6 @@
         });
     });
 
-    // Funzione per mostrare/nascondere l'abstract al click
     function toggleAbstract(id) {
         const el = document.getElementById(id);
         if (el.style.display === "none") {
