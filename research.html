@@ -3,170 +3,97 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research | Silvia Ragni</title>
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="css/style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
 <header>
-
-<div class="container">
-
-<a href="index.html"
-class="logo">
-
-Silvia Ragni
-
-</a>
-
-<nav>
-
-<a href="index.html">
-
-Home
-
-</a>
-
-<a href="research.html"
-class="active">
-
-Research
-
-</a>
-
-<a href="conferences.html">
-
-Conferences
-
-</a>
-
-<a href="cv.html">
-
-CV
-
-</a>
-
-</nav>
-
-</div>
-
+    <div class="container">
+        <a href="index.html" class="logo">Silvia Ragni</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html" class="active">Research</a>
+            <a href="conferences.html">Conferences</a>
+            <a href="cv.html">CV</a>
+        </nav>
+    </div>
 </header>
 
 <main>
+    <section class="hero">
+        <div class="narrow">
+            <h1>Research</h1>
+            <p>
+                My research lies at the interface between <strong>Algebraic Geometry</strong> and <strong>Mathematical Physics</strong>.
+            </p>
+            <p>
+                I am mainly interested in <strong>Cohomological Field Theories</strong>, <strong>moduli spaces of curves</strong>, <strong>Frobenius manifolds</strong>, and their interactions.
+            </p>
+            <p>
+                More broadly, I enjoy questions connecting geometry, topology and mathematical physics.
+            </p>
+        </div>
+    </section>
 
-<section class="hero">
+    <section class="kayak">
+        <img src="images/kayak.jpeg" alt="Kayaking">
+    </section>
 
-<div class="narrow">
-
-<h1>
-
-Research
-
-</h1>
-
-<p>
-
-My research lies at the interface between
-<strong>Algebraic Geometry</strong>
-and
-<strong>Mathematical Physics</strong>.
-
-</p>
-
-<p>
-
-I am mainly interested in
-
-<strong>Cohomological Field Theories</strong>,
-<strong>moduli spaces of curves</strong>,
-<strong>Frobenius manifolds</strong>,
-and their interactions.
-
-</p>
-
-<p>
-
-More broadly, I enjoy questions connecting geometry,
-topology and mathematical physics.
-
-</p>
-
-</div>
-
-</section>
-
-
-
-<section class="kayak">
-
-<img src="images/kayak.jpeg"
-alt="Kayaking">
-
-</section>
-
-
-
-<section>
-
-<div class="narrow">
-
-<h2>
-
-Publications
-
-</h2>
-
-<div id="publications">
-
-<p>
-
-Loading publications...
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
+    <section>
+        <div class="narrow">
+            <h2>Publications</h2>
+            <!-- Qui verranno iniettate le pubblicazioni da Zotero -->
+            <div id="publications">
+                <p>Loading publications...</p>
+            </div>
+        </div>
+    </section>
 </main>
 
-
-
 <footer>
-
-<p>
-
-© Silvia Ragni
-
-</p>
-
+    <p>© Silvia Ragni</p>
 </footer>
 
+<!-- Script di integrazione diretta con Zotero -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- CONFIGURAZIONE ZOTERO ---
+        const zoteroUserId = 16370800; // Metti qui il tuo userID numerico
+        const zoteroApiKey = Xwdf3UKdZ4bRuEjs0LlsJg3v; // Metti qui la tua API Key privata
+        // ------------------------------
 
-<script src="js/publications.js"></script>
+        // Chiamata all'endpoint delle tue pubblicazioni personali in formato HTML (APA style)
+        const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=bib&style=apa&direction=desc&key=${zoteroApiKey}`;
+
+        const container = document.getElementById("publications");
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Errore durante la connessione alle API di Zotero");
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                if (htmlContent.trim() === "") {
+                    container.innerHTML = "<p>No publications found in your Zotero 'My Publications' folder.</p>";
+                } else {
+                    container.innerHTML = htmlContent;
+                }
+            })
+            .catch(error => {
+                console.error("Errore di caricamento:", error);
+                container.innerHTML = "<p>Unable to load publications at this time. Please check back later.</p>";
+            });
+    });
+</script>
 
 </body>
-
 </html>
