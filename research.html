@@ -64,6 +64,7 @@
 <!-- Script di integrazione diretta con Zotero -->
 <!-- Script di integrazione avanzata stile "al-folio" con Zotero -->
 <!-- Script aggiornato: tutti i nomi degli autori hanno lo stesso stile uniforme -->
+<!-- Script aggiornato: filtra gli allegati di Zotero e rinomina il tasto in arXiv -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
@@ -90,6 +91,11 @@
             data.forEach(item => {
                 const meta = item.data;
                 
+                // 1. FILTRO FONDAMENTALE: Escludiamo allegati (attachment) e note, tenendo solo i documenti reali
+                if (meta.itemType === "attachment" || meta.itemType === "note") {
+                    return; 
+                }
+                
                 // Fallback all'anno corrente se non c'è una data di pubblicazione ufficiale
                 let year = new Date().getFullYear().toString(); 
                 
@@ -110,6 +116,9 @@
             let htmlOutput = '<div class="publications-timeline">';
 
             sortedYears.forEach(year => {
+                // Se dopo il filtro l'anno è rimasto vuoto, non lo mostriamo
+                if (publicationsByYear[year].length === 0) return;
+
                 htmlOutput += `
                     <div class="pub-row">
                         <div class="pub-year">${year}</div>
@@ -125,7 +134,6 @@
                             .map(c => `${c.firstName} ${c.lastName}`);
                         
                         if (authors.length > 0) {
-                            // Mantiene i nomi degli autori esattamente come inseriti su Zotero, senza grassetti aggiuntivi
                             authorsStr = authors.join(", ");
                         }
                     }
@@ -138,6 +146,12 @@
                     
                     const abstractId = `abs-${year}-${index}`;
 
+                    // Determina se il link è di arXiv per cambiare il testo del bottone
+                    let linkLabel = "Link";
+                    if (urlLink.toLowerCase().includes("arxiv")) {
+                        linkLabel = "arXiv";
+                    }
+
                     htmlOutput += `
                         <li>
                             <div class="pub-item">
@@ -147,7 +161,7 @@
                                 
                                 <div class="pub-links">
                                     ${abstract ? `<a href="javascript:void(0)" class="pub-btn" onclick="toggleAbstract('${abstractId}')">Abs</a>` : ""}
-                                    ${urlLink ? `<a href="${urlLink}" target="_blank" class="pub-btn">Link</a>` : ""}
+                                    ${urlLink ? `<a href="${urlLink}" target="_blank" class="pub-btn">${linkLabel}</a>` : ""}
                                     ${doi ? `<a href="https://doi.org/${doi}" target="_blank" class="pub-btn">DOI</a>` : ""}
                                 </div>
 
@@ -182,6 +196,5 @@
         }
     }
 </script>
-
 </body>
 </html>
