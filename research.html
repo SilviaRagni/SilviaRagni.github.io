@@ -64,20 +64,18 @@
 <!-- Script di integrazione diretta con Zotero -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // --- CONFIGURAZIONE ZOTERO ---
-        const zoteroUserId = 16370800; // Metti qui il tuo userID numerico
-        const zoteroApiKey = Xwdf3UKdZ4bRuEjs0LlsJg3v; // Metti qui la tua API Key privata
-        // ------------------------------
+        // Inserisci solo il tuo User ID numerico (es. "1234567") sempre tra virgolette
+        const zoteroUserId = "16370800"; 
 
-        // Chiamata all'endpoint delle tue pubblicazioni personali in formato HTML (APA style)
-        const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=bib&style=apa&direction=desc&key=${zoteroApiKey}`;
+        // Questa richiesta è pubblica e non ha bisogno della chiave privata!
+        const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=bib&style=apa&direction=desc`;
 
         const container = document.getElementById("publications");
 
         fetch(url)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Errore durante la connessione alle API di Zotero");
+                    throw new Error("Errore durante la connessione a Zotero");
                 }
                 return response.text();
             })
@@ -94,6 +92,6 @@
             });
     });
 </script>
-
+    
 </body>
 </html>
