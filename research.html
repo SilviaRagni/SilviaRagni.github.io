@@ -64,34 +64,41 @@
 <!-- Script di integrazione diretta con Zotero -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Inserisci solo il tuo User ID numerico (es. "1234567") sempre tra virgolette
+        // --- CONFIGURAZIONE ZOTERO ---
         const zoteroUserId = "16370800"; 
+        const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; // Inserita tra virgolette come stringa
+        // ------------------------------
 
-        // Questa richiesta è pubblica e non ha bisogno della chiave privata!
-        const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=bib&style=apa&direction=desc`;
+        // URL pulito e corretto per evitare l'errore 400
+        const url = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=bib&style=apa`;
 
         const container = document.getElementById("publications");
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Errore durante la connessione a Zotero");
-                }
-                return response.text();
-            })
-            .then(htmlContent => {
-                if (htmlContent.trim() === "") {
-                    container.innerHTML = "<p>No publications found in your Zotero 'My Publications' folder.</p>";
-                } else {
-                    container.innerHTML = htmlContent;
-                }
-            })
-            .catch(error => {
-                console.error("Errore di caricamento:", error);
-                container.innerHTML = "<p>Unable to load publications at this time. Please check back later.</p>";
-            });
+        // Eseguiamo la chiamata includendo la chiave di autenticazione negli Header di sicurezza
+        fetch(url, {
+            headers: {
+                "Zotero-API-Key": zoteroApiKey
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Errore Zotero: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+        })
+        .then(htmlContent => {
+            if (htmlContent.trim() === "" || htmlContent.includes("class=\"csl-entry\"") === false) {
+                // Se la risposta è vuota o non contiene elementi formattati
+                container.innerHTML = "<p>No publications found. Please make sure you have added items to 'My Publications' on Zotero Desktop and synchronized.</p>";
+            } else {
+                container.innerHTML = htmlContent;
+            }
+        })
+        .catch(error => {
+            console.error("Errore di caricamento:", error);
+            container.innerHTML = "<p>Unable to load publications at this time. Please check back later.</p>";
+        });
     });
-</script>
-    
+</script>    
 </body>
 </html>
