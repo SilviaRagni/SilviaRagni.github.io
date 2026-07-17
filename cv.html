@@ -2,203 +2,272 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Inserisci questo dentro l'head per nascondere la pagina a Google -->
-<meta name="robots" content="noindex, nofollow">
-
-<title>CV | Silvia Ragni</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blocco per rendere la pagina invisibile ai motori di ricerca finché il sito è in costruzione -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>CV | Silvia Ragni</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Libreria JavaScript per convertire il template nascosto in PDF al volo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
 
 <header>
-
-<div class="container">
-
-<a href="index.html" class="logo">
-
-Silvia Ragni
-
-</a>
-
-<nav>
-
-<a href="index.html">Home</a>
-
-<a href="research.html">Research</a>
-
-<a href="conferences.html">Conferences</a>
-
-<a href="cv.html" class="active">CV</a>
-
-</nav>
-
-</div>
-
+    <div class="container">
+        <a href="index.html" class="logo">Silvia Ragni</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="conferences.html">Conferences</a>
+            <a href="cv.html" class="active">CV</a>
+        </nav>
+    </div>
 </header>
 
 <main>
+    <section class="hero">
+        <div class="narrow">
+            <h1>Curriculum Vitae</h1>
+            <p>You can view a summary of my academic path below, or download the dynamically generated PDF containing my complete and up-to-date academic record.</p>
+            
+            <div class="cv-download-container">
+                <!-- Pulsante per scaricare il PDF generato in tempo reale -->
+                <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span id="btn-text">Download Auto-Updated CV (PDF)</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
-<section class="hero">
+    <!-- VISIBILE SUL SITO: Current Position & Education -->
+    <section>
+        <div class="narrow">
+            <h2>Current Position</h2>
+            <div class="cv-timeline">
+                <div class="cv-item">
+                    <div class="cv-meta">
+                        <span class="cv-date">2025 – Present</span>
+                        <span class="cv-institution">Humboldt University of Berlin</span>
+                    </div>
+                    <div class="cv-details">
+                        <h3>PhD Student in Mathematics</h3>
+                        <p>Supervisors: Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
+                    </div>
+                </div>
+            </div>
 
-<div class="narrow">
+            <h2>Education</h2>
+            <div class="cv-timeline">
+                <div class="cv-item">
+                    <div class="cv-meta">
+                        <span class="cv-date">2023 – 2025</span>
+                        <span class="cv-institution">University of Padua</span>
+                    </div>
+                    <div class="cv-details">
+                        <h3>MSc in Mathematics</h3>
+                        <p><strong>Grade:</strong> 110/110 cum laude</p>
+                        <p style="margin-top: 5px;"><em>Master's thesis:</em> Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</p>
+                        <p><em>Supervisors:</em> Gaëtan Borot and Paolo Rossi</p>
+                    </div>
+                </div>
 
-<h1>Curriculum Vitae</h1>
+                <div class="cv-item">
+                    <div class="cv-meta">
+                        <span class="cv-date">2019 – 2022</span>
+                        <span class="cv-institution">University of Padua</span>
+                    </div>
+                    <div class="cv-details">
+                        <h3>BSc in Physics</h3>
+                        <p><strong>Grade:</strong> 110/110</p>
+                        <p style="margin-top: 5px;"><em>Bachelor's thesis:</em> Quantum mechanics in the star-product formalism</p>
+                        <p><em>Supervisor:</em> Paolo Rossi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- VISIBILE SUL SITO: Sezione Talks -->
+    <section>
+        <div class="narrow">
+            <h2>Talks & Presentations</h2>
+            <ul class="talks-list" id="site-talks-list">
+                <li style="color:#777; font-style:italic;">Loading talks...</li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- ======================================================= -->
+<!-- AREA INVISIBILE SUL SITO: STRUTTURA IMPAGINATA PER IL PDF -->
+<!-- ======================================================= -->
+<div style="display: none;">
+    <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
+        <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
+        <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
+            PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
+        </p>
+
+        <!-- Current Position nel PDF -->
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
+        <div style="margin-bottom: 15px;">
+            <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
+            <p style="margin: 2px 0 4px 0; font-size: 14px; color: #555;">Humboldt University of Berlin</p>
+            <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;">Supervisors: Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
+        </div>
+
+        <!-- Education nel PDF -->
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
+        <div style="margin-bottom: 15px;">
+            <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110 cum laude</p>
+            <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</p>
+            <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;">Supervisors: Gaëtan Borot and Paolo Rossi</p>
+            
+            <p style="margin: 4px 0;"><strong>2019 – 2022: BSc in Physics</strong> — University of Padua</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110</p>
+            <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Quantum mechanics in the star-product formalism</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;">Supervisor: Paolo Rossi</p>
+        </div>
+
+        <!-- Sezione Pubblicazioni nel PDF -->
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
+        <div id="pdf-publications" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading latest publications from Zotero...
+        </div>
+
+        <!-- Sezione Talk nel PDF -->
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
+        <div id="pdf-talks-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading talks...
+        </div>
+
+        <!-- Sezione Conferenze Organizzate nel PDF -->
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
+        <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading organized conferences...
+        </div>
+    </div>
 </div>
-
-</section>
-
-
-<section>
-
-<div class="narrow">
-
-<h2>Current Position</h2>
-
-<div class="cv-item">
-
-<div class="cv-year">
-
-2025–present
-
-</div>
-
-<div class="cv-content">
-
-<strong>PhD Student in Mathematics</strong><br>
-
-Humboldt University of Berlin
-
-<p>
-
-<strong>Supervisors:</strong>
-Gaëtan Borot and Gavril Farkas
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section>
-
-<div class="narrow">
-
-<h2>Education</h2>
-
-<div class="cv-item">
-
-<div class="cv-year">
-
-2023–2025
-
-</div>
-
-<div class="cv-content">
-
-<strong>MSc in Mathematics</strong><br>
-
-University of Padua
-
-<p>
-
-Grade: 110/110 <em>cum laude</em>
-
-</p>
-
-<p>
-
-<strong>Master's thesis</strong><br>
-
-<em>Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</em>
-
-</p>
-
-<p>
-
-<strong>Supervisors:</strong>
-
-Gaëtan Borot and Paolo Rossi
-
-</p>
-
-</div>
-
-</div>
-
-
-
-<div class="cv-item">
-
-<div class="cv-year">
-
-2019–2022
-
-</div>
-
-<div class="cv-content">
-
-<strong>BSc in Physics</strong><br>
-
-University of Padua
-
-<p>
-
-Grade: 110/110
-
-</p>
-
-<p>
-
-<strong>Bachelor's thesis</strong><br>
-
-<em>Quantum mechanics in the star-product formalism</em>
-
-</p>
-
-<p>
-
-<strong>Supervisor:</strong>
-
-Paolo Rossi
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
 
 <footer>
-<p>
-       
-© Silvia Ragni
-
-</p>
+    <p>© Silvia Ragni</p>
 </footer>
 
+<!-- SCRIPT DI SINCRO CON ZOTERO E GENERAZIONE DEL PDF -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const zoteroUserId = "16370800"; 
+        const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
+        
+        // Ricordati di inserire qui le chiavi delle tue due collezioni non appena le crei su Zotero!
+        const talksKey = "GMH2XZNB"; 
+        const confKey = "DZDN49EL"; 
 
+        const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
+        const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
+        const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
+
+        const headers = { "Zotero-API-Key": zoteroApiKey };
+
+        Promise.all([
+            fetch(urlPubs, { headers }).then(r => r.json().catch(() => [])),
+            fetch(urlTalks, { headers }).then(r => r.json().catch(() => [])),
+            fetch(urlConfs, { headers }).then(r => r.json().catch(() => []))
+        ])
+        .then(([pubsData, talksData, confsData]) => {
+            
+            // 1. Iniezione Pubblicazioni nel PDF
+            const pdfPubContainer = document.getElementById("pdf-publications");
+            let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasPubs = false;
+            if (Array.isArray(pubsData)) {
+                pubsData.forEach(item => {
+                    const meta = item.data;
+                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+                    hasPubs = true;
+                    const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+                    const year = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
+                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
+                });
+            }
+            pubsHtml += "</ul>";
+            pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+
+            // 2. Iniezione Talk (Sia nel PDF sia sulla Pagina Web per comodità)
+            const pdfTalksContainer = document.getElementById("pdf-talks-list");
+            const siteTalksContainer = document.getElementById("site-talks-list");
+            
+            let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let siteTalksHtml = "";
+            let hasTalks = false;
+            
+            if (Array.isArray(talksData)) {
+                talksData.forEach(item => {
+                    const meta = item.data;
+                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+                    hasTalks = true;
+                    const itemHtml = `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
+                    talksHtml += itemHtml;
+                    siteTalksHtml += itemHtml;
+                });
+            }
+            talksHtml += "</ul>";
+            
+            pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
+            siteTalksContainer.innerHTML = hasTalks ? siteTalksHtml : "<li style='color:#777; font-style:italic;'>No talks given yet.</li>";
+
+            // 3. Iniezione Conferenze Organizzate nel PDF
+            const pdfConfsContainer = document.getElementById("pdf-conferences-list");
+            let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasConfs = false;
+            if (Array.isArray(confsData)) {
+                confsData.forEach(item => {
+                    const meta = item.data;
+                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+                    hasConfs = true;
+                    confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, (${meta.date || ""}) — <em>Organizer / Organizing Committee</em></li>`;
+                });
+            }
+            confsHtml += "</ul>";
+            pdfConfsContainer.innerHTML = hasConfs ? confsHtml : "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
+
+        })
+        .catch(error => {
+            console.error("Zotero Sync Error:", error);
+            document.getElementById("pdf-publications").innerHTML = "<p>Data temporarily unavailable.</p>";
+        });
+    });
+
+    // Funzione che compila l'A4 e lo fa scaricare
+    function generatePDF() {
+        const element = document.getElementById('cv-pdf-template');
+        const btn = document.getElementById('download-btn');
+        const btnText = document.getElementById('btn-text');
+        btnText.innerText = "Generating PDF...";
+        btn.disabled = true;
+
+        const opt = {
+            margin:       15,
+            filename:     'Silvia_Ragni_CV.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            btnText.innerText = "Download Auto-Updated CV (PDF)";
+            btn.disabled = false;
+        });
+    }
+</script>
 
 </body>
-
 </html>
