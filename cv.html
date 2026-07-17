@@ -31,10 +31,10 @@
 </header>
 
 <main>
-
     <!-- VISIBILE SUL SITO: Current Position & Education -->
     <section>
         <div class="narrow">
+        <h1>Curriculum Vitae</h1>
             <h2>Current Position</h2>
             <div class="cv-timeline">
                 <div class="cv-item">
@@ -80,13 +80,21 @@
         </div>
     </section>
 
+    <!-- VISIBILE SUL SITO: Sezione dinamica dei Talk -->
+    <section>
+        <div class="narrow">
+            <h2>Talks & Presentations</h2>
+            <ul class="talks-list" id="site-talks-list">
+                <li style="color:#777; font-style:italic;">Loading talks from Zotero...</li>
+            </ul>
+        </div>
+    </section>
+
     <section class="hero">
         <div class="narrow">
-            <h1>Curriculum Vitae</h1>
-            <p>You can dowload my full CV here.</p>
+            <p>You can download my full CV here.</p>
             
             <div class="cv-download-container">
-                <!-- Pulsante per scaricare il PDF generato in tempo reale -->
                 <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span id="btn-text">Download Auto-Updated CV (PDF)</span>
@@ -94,7 +102,7 @@
             </div>
         </div>
     </section>
-
+</main>
 
 <!-- ======================================================= -->
 <!-- AREA INVISIBILE SUL SITO: STRUTTURA IMPAGINATA PER IL PDF -->
@@ -106,7 +114,6 @@
             PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
         </p>
 
-        <!-- Current Position nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
@@ -114,7 +121,6 @@
             <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;">Supervisors: Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
         </div>
 
-        <!-- Education nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
@@ -128,19 +134,16 @@
             <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;">Supervisor: Paolo Rossi</p>
         </div>
 
-        <!-- Sezione Pubblicazioni nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
         <div id="pdf-publications" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading latest publications from Zotero...
         </div>
 
-        <!-- Sezione Talk nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
         <div id="pdf-talks-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading talks...
         </div>
 
-        <!-- Sezione Conferenze Organizzate nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
         <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading organized conferences...
@@ -152,13 +155,10 @@
     <p>© Silvia Ragni</p>
 </footer>
 
-<!-- SCRIPT DI SINCRO CON ZOTERO E GENERAZIONE DEL PDF -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
-        
-        // Ricordati di inserire qui le chiavi delle tue due collezioni non appena le crei su Zotero!
         const talksKey = "GMH2XZNB"; 
         const confKey = "DZDN49EL"; 
 
@@ -168,37 +168,37 @@
 
         const headers = { "Zotero-API-Key": zoteroApiKey };
 
-        Promise.all([
-            fetch(urlPubs, { headers }).then(r => r.json().catch(() => [])),
-            fetch(urlTalks, { headers }).then(r => r.json().catch(() => [])),
-            fetch(urlConfs, { headers }).then(r => r.json().catch(() => []))
-        ])
-        .then(([pubsData, talksData, confsData]) => {
-            
-    // 1. Iniezione Pubblicazioni nel PDF
-    const pdfPubContainer = document.getElementById("pdf-publications");
-    let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-    let hasPubs = false;
-    if (Array.isArray(pubsData)) {
-        pubsData.forEach(item => {
-            const meta = item.data;
-            if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-            hasPubs = true;
-            const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-        
-        // PRENDI LA DATA COSÌ COM'È SENZA RISCHIARE DI FARE CRASH
-        const year = meta.date ? meta.date : ""; 
-        
-        pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
-    });
-}
-pubsHtml += "</ul>";
-pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+        // 1. Fetch Pubblicazioni Nativa (Le Mie Pubblicazioni)
+        fetch(urlPubs, { headers })
+        .then(r => r.json())
+        .then(pubsData => {
+            const pdfPubContainer = document.getElementById("pdf-publications");
+            let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasPubs = false;
+            if (Array.isArray(pubsData)) {
+                pubsData.forEach(item => {
+                    const meta = item.data;
+                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+                    hasPubs = true;
+                    const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+                    const year = meta.date ? meta.date : ""; 
+                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
+                });
+            }
+            pubsHtml += "</ul>";
+            pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+        })
+        .catch(err => {
+            console.error("Error loading publications:", err);
+            document.getElementById("pdf-publications").innerHTML = "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+        });
 
-            // 2. Iniezione Talk (Sia nel PDF sia sulla Pagina Web per comodità)
+        // 2. Fetch Talk (Sia per il sito che per il PDF)
+        fetch(urlTalks, { headers })
+        .then(r => r.json())
+        .then(talksData => {
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             const siteTalksContainer = document.getElementById("site-talks-list");
-            
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let siteTalksHtml = "";
             let hasTalks = false;
@@ -214,11 +214,15 @@ pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-sty
                 });
             }
             talksHtml += "</ul>";
-            
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
-            siteTalksContainer.innerHTML = hasTalks ? siteTalksHtml : "<li style='color:#777; font-style:italic;'>No talks given yet.</li>";
+            if (siteTalksContainer) siteTalksContainer.innerHTML = hasTalks ? siteTalksHtml : "<li style='color:#777; font-style:italic;'>No talks given yet.</li>";
+        })
+        .catch(err => console.error("Error loading talks:", err));
 
-            // 3. Iniezione Conferenze Organizzate nel PDF
+        // 3. Fetch Conferenze Organizzate (Mostra un fallback se la cartella Zotero è vuota)
+        fetch(urlConfs, { headers })
+        .then(r => r.json())
+        .then(confsData => {
             const pdfConfsContainer = document.getElementById("pdf-conferences-list");
             let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasConfs = false;
@@ -232,15 +236,13 @@ pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-sty
             }
             confsHtml += "</ul>";
             pdfConfsContainer.innerHTML = hasConfs ? confsHtml : "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
-
         })
-        .catch(error => {
-            console.error("Zotero Sync Error:", error);
-            document.getElementById("pdf-publications").innerHTML = "<p>Data temporarily unavailable.</p>";
+        .catch(err => {
+            console.error("Error loading conferences:", err);
+            document.getElementById("pdf-conferences-list").innerHTML = "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
         });
     });
 
-    // Funzione che compila l'A4 e lo fa scaricare
     function generatePDF() {
         const element = document.getElementById('cv-pdf-template');
         const btn = document.getElementById('download-btn');
