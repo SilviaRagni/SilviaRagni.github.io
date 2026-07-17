@@ -174,22 +174,25 @@
         ])
         .then(([pubsData, talksData, confsData]) => {
             
-            // 1. Iniezione Pubblicazioni nel PDF
-            const pdfPubContainer = document.getElementById("pdf-publications");
-            let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-            let hasPubs = false;
-            if (Array.isArray(pubsData)) {
-                pubsData.forEach(item => {
-                    const meta = item.data;
-                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    hasPubs = true;
-                    const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-                    const year = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
-                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
-                });
-            }
-            pubsHtml += "</ul>";
-            pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+    // 1. Iniezione Pubblicazioni nel PDF
+    const pdfPubContainer = document.getElementById("pdf-publications");
+    let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+    let hasPubs = false;
+    if (Array.isArray(pubsData)) {
+        pubsData.forEach(item => {
+            const meta = item.data;
+            if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+            hasPubs = true;
+            const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+        
+        // PRENDI LA DATA COSÌ COM'È SENZA RISCHIARE DI FARE CRASH
+        const year = meta.date ? meta.date : ""; 
+        
+        pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
+    });
+}
+pubsHtml += "</ul>";
+pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
 
             // 2. Iniezione Talk (Sia nel PDF sia sulla Pagina Web per comodità)
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
