@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- Libreria JavaScript per convertire il template nascosto in PDF al volo -->
+    <!-- Libreria JavaScript per convertire il template nascosto in PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -31,10 +31,16 @@
 </header>
 
 <main>
-    <!-- VISIBILE SUL SITO: Current Position & Education -->
-    <section>
+    <!-- TITOLO PRINCIPALE BEN DISTANZIATO -->
+    <section style="padding-top: 2.5rem; padding-bottom: 1rem;">
         <div class="narrow">
-        <h1>Curriculum Vitae</h1>
+            <h1 style="font-size: 2.5rem; margin-bottom: 0;">Curriculum Vitae</h1>
+        </div>
+    </section>
+
+    <!-- VISIBILE SUL SITO: Current Position & Education -->
+    <section style="padding-top: 1rem;">
+        <div class="narrow">
             <h2>Current Position</h2>
             <div class="cv-timeline">
                 <div class="cv-item">
@@ -80,21 +86,11 @@
         </div>
     </section>
 
-    <!-- VISIBILE SUL SITO: Sezione dinamica dei Talk -->
-    <section>
+    <!-- PARTE FINALE COMPATTA PER IL DOWNLOAD -->
+    <section style="padding-top: 1.5rem; padding-bottom: 2rem;">
         <div class="narrow">
-            <h2>Talks & Presentations</h2>
-            <ul class="talks-list" id="site-talks-list">
-                <li style="color:#777; font-style:italic;">Loading talks from Zotero...</li>
-            </ul>
-        </div>
-    </section>
-
-    <section class="hero">
-        <div class="narrow">
-            <p>You can download my full CV here.</p>
-            
-            <div class="cv-download-container">
+            <p style="margin-bottom: 0.8rem;">You can download my full CV here.</p>
+            <div class="cv-download-container" style="margin-top: 0;">
                 <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span id="btn-text">Download Auto-Updated CV (PDF)</span>
@@ -162,15 +158,15 @@
         const talksKey = "GMH2XZNB"; 
         const confKey = "DZDN49EL"; 
 
-        const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
-        const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
-        const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
-
         const headers = { "Zotero-API-Key": zoteroApiKey };
 
-        // 1. Fetch Pubblicazioni Nativa (Le Mie Pubblicazioni)
+        // 1. Fetch Pubblicazioni
+        const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
         fetch(urlPubs, { headers })
-        .then(r => r.json())
+        .then(response => {
+            if (!response.ok) throw new Error("HTTP error " + response.status);
+            return response.json();
+        })
         .then(pubsData => {
             const pdfPubContainer = document.getElementById("pdf-publications");
             let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
@@ -193,14 +189,16 @@
             document.getElementById("pdf-publications").innerHTML = "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
         });
 
-        // 2. Fetch Talk (Sia per il sito che per il PDF)
+        // 2. Fetch Talk (Solo per il PDF)
+        const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
         fetch(urlTalks, { headers })
-        .then(r => r.json())
+        .then(response => {
+            if (!response.ok) throw new Error("HTTP error " + response.status);
+            return response.json();
+        })
         .then(talksData => {
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
-            const siteTalksContainer = document.getElementById("site-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-            let siteTalksHtml = "";
             let hasTalks = false;
             
             if (Array.isArray(talksData)) {
@@ -208,20 +206,24 @@
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasTalks = true;
-                    const itemHtml = `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
-                    talksHtml += itemHtml;
-                    siteTalksHtml += itemHtml;
+                    talksHtml += `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
                 });
             }
             talksHtml += "</ul>";
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
-            if (siteTalksContainer) siteTalksContainer.innerHTML = hasTalks ? siteTalksHtml : "<li style='color:#777; font-style:italic;'>No talks given yet.</li>";
         })
-        .catch(err => console.error("Error loading talks:", err));
+        .catch(err => {
+            console.error("Error loading talks:", err);
+            document.getElementById("pdf-talks-list").innerHTML = "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
+        });
 
-        // 3. Fetch Conferenze Organizzate (Mostra un fallback se la cartella Zotero è vuota)
+        // 3. Fetch Conferenze Organizzate
+        const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
         fetch(urlConfs, { headers })
-        .then(r => r.json())
+        .then(response => {
+            if (!response.ok) throw new Error("HTTP error " + response.status);
+            return response.json();
+        })
         .then(confsData => {
             const pdfConfsContainer = document.getElementById("pdf-conferences-list");
             let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
