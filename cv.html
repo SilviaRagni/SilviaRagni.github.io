@@ -31,20 +31,6 @@
 </header>
 
 <main>
-    <section class="hero">
-        <div class="narrow">
-            <h1>Curriculum Vitae</h1>
-            <p>You can dowload my full CV here.</p>
-            
-            <div class="cv-download-container">
-                <!-- Pulsante per scaricare il PDF generato in tempo reale -->
-                <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    <span id="btn-text">Download Auto-Updated CV (PDF)</span>
-                </button>
-            </div>
-        </div>
-    </section>
 
     <!-- VISIBILE SUL SITO: Current Position & Education -->
     <section>
@@ -90,6 +76,21 @@
                         <p><em>Supervisor:</em> Paolo Rossi</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="hero">
+        <div class="narrow">
+            <h1>Curriculum Vitae</h1>
+            <p>You can dowload my full CV here.</p>
+            
+            <div class="cv-download-container">
+                <!-- Pulsante per scaricare il PDF generato in tempo reale -->
+                <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span id="btn-text">Download Auto-Updated CV (PDF)</span>
+                </button>
             </div>
         </div>
     </section>
