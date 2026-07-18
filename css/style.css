@@ -232,11 +232,11 @@ section{
 }
 
 .caption-sailing {
-    margin-top: 12px;
-    font-size: 0.85rem;
+    margin-top: 25px;
+    font-size: 0.95rem; /* Stessa dimensione della Capanna Margherita */
     color: var(--muted);
-    line-height: 1.4;
-    text-align: left;
+    line-height: 1.8;
+    text-align: center; /* Centra il testo */
 }
 
 /* ==========================================================
