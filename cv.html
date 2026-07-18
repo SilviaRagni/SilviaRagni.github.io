@@ -4,12 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Blocco per rendere la pagina invisibile ai motori di ricerca finché il sito è in costruzione -->
     <meta name="robots" content="noindex, nofollow">
     <title>CV | Silvia Ragni</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Libreria JavaScript per convertire il template nascosto in PDF al volo -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -28,15 +31,23 @@
 </header>
 
 <main>
-    <!-- TITOLO PRINCIPALE SPRAZIATO -->
-    <section style="padding-top: 2.5rem; padding-bottom: 1rem;">
+    <!-- SEZIONE HERO INIZIALE CON IL PULSANTE DI DOWNLOAD -->
+    <section class="hero">
         <div class="narrow">
-            <h1 style="font-size: 2.5rem; margin-bottom: 0;">Curriculum Vitae</h1>
+            <h1>Curriculum Vitae</h1>
+            <p>Here you can download my full CV:</p>
+            
+            <div class="cv-download-container">
+                <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span id="btn-text">Download Auto-Updated CV (PDF)</span>
+                </button>
+            </div>
         </div>
     </section>
 
-    <!-- VISIBILE SUL SITO -->
-    <section style="padding-top: 1rem;">
+    <!-- VISIBILE SUL SITO: Current Position & Education -->
+    <section>
         <div class="narrow">
             <h2>Current Position</h2>
             <div class="cv-timeline">
@@ -82,29 +93,19 @@
             </div>
         </div>
     </section>
-
-    <!-- PARTE FINALE COMPATTA PER IL DOWNLOAD -->
-    <section style="padding-top: 1.5rem; padding-bottom: 2rem;">
-        <div class="narrow">
-            <p style="margin-bottom: 0.8rem;">Here you can download my full CV:</p>
-            <div class="cv-download-container" style="margin-top: 0;">
-                <button onclick="generatePDF()" class="cv-download-btn" id="download-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    <span id="btn-text">Download Auto-Updated CV (PDF)</span>
-                </button>
-            </div>
-        </div>
-    </section>
 </main>
 
-<!-- AREA PDF (Invisibile per l'utente) -->
-<div id="cv-pdf-wrapper" style="position: absolute; left: -9999px; top: -9999px; width: 210mm; background: white;">
+<!-- ======================================================= -->
+<!-- AREA INVISIBILE SUL SITO: STRUTTURA IMPAGINATA PER IL PDF -->
+<!-- ======================================================= -->
+<div style="display: none;">
     <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
         <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
         <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
             PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
         </p>
 
+        <!-- Current Position nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
@@ -112,6 +113,7 @@
             <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
         </div>
 
+        <!-- Education nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
@@ -125,16 +127,19 @@
             <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;"><em>Supervisor:</em> Paolo Rossi</p>
         </div>
 
+        <!-- Sezione Pubblicazioni nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
         <div id="pdf-publications" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading latest publications from Zotero...
         </div>
 
+        <!-- Sezione Talk nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
         <div id="pdf-talks-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading talks...
         </div>
 
+        <!-- Sezione Conferenze Organizzate nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
         <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading organized conferences...
@@ -146,27 +151,29 @@
     <p>© Silvia Ragni</p>
 </footer>
 
+<!-- SCRIPT DI SINCRO CON ZOTERO E GENERAZIONE DEL PDF -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
+        
         const talksKey = "GMH2XZNB"; 
         const confKey = "DZDN49EL"; 
-
-        const headers = { "Zotero-API-Key": zoteroApiKey };
 
         const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
         const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
         const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
 
+        const headers = { "Zotero-API-Key": zoteroApiKey };
+
         Promise.all([
-            fetch(urlPubs, { headers }).then(r => r.json()),
-            fetch(urlTalks, { headers }).then(r => r.json()),
-            fetch(urlConfs, { headers }).then(r => r.json())
+            fetch(urlPubs, { headers }).then(r => r.json().catch(() => [])),
+            fetch(urlTalks, { headers }).then(r => r.json().catch(() => [])),
+            fetch(urlConfs, { headers }).then(r => r.json().catch(() => []))
         ])
         .then(([pubsData, talksData, confsData]) => {
             
-            // 1. Pubblicazioni
+            // 1. Iniezione Pubblicazioni nel PDF
             const pdfPubContainer = document.getElementById("pdf-publications");
             let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasPubs = false;
@@ -176,16 +183,18 @@
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasPubs = true;
                     const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${meta.date || ""}).</li>`;
+                    const year = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
+                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
                 });
             }
             pubsHtml += "</ul>";
             pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
 
-            // 2. Talk
+            // 2. Iniezione Talk nel PDF (completamente rimosso dal sito visibile)
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasTalks = false;
+            
             if (Array.isArray(talksData)) {
                 talksData.forEach(item => {
                     const meta = item.data;
@@ -197,7 +206,7 @@
             talksHtml += "</ul>";
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
 
-            // 3. Conferenze
+            // 3. Iniezione Conferenze Organizzate nel PDF
             const pdfConfsContainer = document.getElementById("pdf-conferences-list");
             let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasConfs = false;
@@ -211,17 +220,19 @@
             }
             confsHtml += "</ul>";
             pdfConfsContainer.innerHTML = hasConfs ? confsHtml : "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
+
         })
         .catch(error => {
             console.error("Zotero Sync Error:", error);
+            document.getElementById("pdf-publications").innerHTML = "<p>Data temporarily unavailable.</p>";
         });
     });
 
+    // Funzione stabile che compila l'A4 dal DOM sincronizzato
     function generatePDF() {
         const element = document.getElementById('cv-pdf-template');
         const btn = document.getElementById('download-btn');
         const btnText = document.getElementById('btn-text');
-        
         btnText.innerText = "Generating PDF...";
         btn.disabled = true;
 
@@ -234,10 +245,6 @@
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-            btnText.innerText = "Download Auto-Updated CV (PDF)";
-            btn.disabled = false;
-        }).catch(err => {
-            console.error(err);
             btnText.innerText = "Download Auto-Updated CV (PDF)";
             btn.disabled = false;
         });
