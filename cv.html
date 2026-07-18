@@ -230,6 +230,7 @@
 
     // Generatore PDF a tempo atomico
     // Generatore PDF a tempo atomico con paracadute per il rendering
+    // Generatore PDF definitivo con parsing HTML semplificato e ritardo di sicurezza
     function generatePDF() {
         const wrapper = document.getElementById('cv-pdf-wrapper');
         const element = document.getElementById('cv-pdf-template');
@@ -242,7 +243,44 @@
         // 1. Mostriamo il blocco nel DOM
         wrapper.style.display = "block";
 
-        // 2. Diamo 100 millisecondi al browser per renderizzare graficamente i testi
+        // 2. Aggiorniamo al volo il codice del template per eliminare i tag em nidificati che fanno crashare la libreria
+        element.innerHTML = `
+            <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
+            <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
+                PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
+            </p>
+
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
+            <div style="margin-bottom: 15px;">
+                <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
+                <p style="margin: 2px 0 4px 0; font-size: 14px; color: #555;">Humboldt University of Berlin</p>
+                <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666; font-style: italic;">Supervisors: Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
+            </div>
+
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
+            <div style="margin-bottom: 15px;">
+                <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
+                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110 cum laude</p>
+                <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555; font-style: italic;">Thesis: Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</p>
+                <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666; font-style: italic;">Supervisors: Gaëtan Borot and Paolo Rossi</p>
+                
+                <p style="margin: 4px 0;"><strong>2019 – 2022: BSc in Physics</strong> — University of Padua</p>
+                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110</p>
+                <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555; font-style: italic;">Thesis: Quantum mechanics in the star-product formalism</p>
+                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666; font-style: italic;">Supervisor: Paolo Rossi</p>
+            </div>
+
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
+            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlPublications}</div>
+
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
+            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlTalks}</div>
+
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
+            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlConferences}</div>
+        `;
+
+        // 3. Diamo il tempo al browser di processare la nuova struttura pulita
         setTimeout(() => {
             const opt = {
                 margin:       15,
@@ -253,7 +291,6 @@
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                // 3. Lo rimettiamo invisibile appena salvato
                 wrapper.style.display = "none";
                 btnText.innerText = "Download Auto-Updated CV (PDF)";
                 btn.disabled = false;
@@ -263,7 +300,7 @@
                 btnText.innerText = "Download Auto-Updated CV (PDF)";
                 btn.disabled = false;
             });
-        }, 100); // Ritardo di sicurezza obbligatorio per html2pdf
+        }, 150); 
     }
 </script>
 
