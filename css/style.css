@@ -173,6 +173,10 @@ nav a:hover{
    Sections & About Integrated Layout
    ========================================================== */
 
+/* ==========================================================
+   Sections & About Integrated Layout
+   ========================================================== */
+
 section{
     padding:90px 0;
 }
@@ -182,23 +186,29 @@ section{
     padding-bottom: 60px;
 }
 
-/* Usiamo flexbox su desktop per invertire l'ordine degli elementi in modo pulito */
-/* Sposta il testo sopra e la foto sotto su mobile, centrando il blocco */
-    #about .hero-grid {
-        display: flex;
-        flex-direction: column; 
-        gap: 50px;
-    }
+/* Griglia dedicata per il PC: barca a sinistra, testo a destra */
+.about-grid {
+    display: flex;
+    flex-direction: row; /* Mantiene la vela a sinistra e l'about a destra */
+    justify-content: space-between;
+    align-items: center;
+    gap: 70px;
+}
 
-    #about .sailing-side-block {
-        width: 100%;
-        max-width: 500px;
-        margin: auto;
-    }
-
-#about .about-text-block {
+.about-text-block {
     flex: 1;
     max-width: 520px;
+}
+
+.sailing-side-block {
+    width: 420px;
+    flex-shrink: 0;
+}
+
+/* Assicura che la figura e la didascalia si muovano in un blocco unico centrato */
+.sailing-side-block figure {
+    display: block;
+    width: 100%;
 }
 
 #about p:last-child{
@@ -357,11 +367,18 @@ footer{
         gap:50px;
     }
 
-    /* Ripristino dell'ordine naturale dall'alto in basso su mobile */
-    #about .hero-grid {
-        direction: ltr;
+   /* Forza il testo dell'About SOPRA e la vela SOTTO sui telefoni */
+    .about-grid {
+        display: flex;
+        flex-direction: column-reverse; 
+        gap: 40px;
     }
 
+    .sailing-side-block {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+    }
     .hero-text{
         max-width:100%;
         text-align:center;
