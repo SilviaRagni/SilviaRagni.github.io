@@ -1,11 +1,32 @@
-[
-    {
-        "date": "April 2026",
-        "text": "Published my first paper with G. Borot and P. Rossi on reconstruction for F-CohFTs"
-    },
-    {
-        "date": "November 2025",
-        "text": "Started my PhD in Mathematics at Humboldt University of Berlin."
-    }
+document.addEventListener("DOMContentLoaded", function() {
+    const newsData = [
+        {
+            "date": "April 2026",
+            "text": "Posted <a href='https://arxiv.org/abs/2604.07270' target='_blank'>my first paper</a> with G. Borot and P. Rossi on reconstruction for F-CohFTs"
+        },
+        {
+            "date": "November 2025",
+            "text": "Started my PhD in Mathematics at Humboldt University of Berlin."
+        }
+    ];
 
-]
+    const newsContainer = document.getElementById("news");
+    
+    if (newsContainer) {
+        if (newsData.length === 0) {
+            newsContainer.innerHTML = "<p>No news at the moment.</p>";
+            return;
+        }
+
+        let html = "<ul style='list-style: none; padding: 0;'>";
+        newsData.forEach(item => {
+            html += `<li style='margin-bottom: 28px;'>
+                <strong style='display: block; color: var(--primary); font-weight: 600;'>${item.date}</strong>
+                <p style='margin-bottom: 0;'>${item.text}</p>
+            </li>`;
+        });
+        html += "</ul>";
+        
+        newsContainer.innerHTML = html;
+    }
+});
