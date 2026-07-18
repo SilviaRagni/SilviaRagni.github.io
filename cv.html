@@ -4,15 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Blocco per rendere la pagina invisibile ai motori di ricerca finché il sito è in costruzione -->
     <meta name="robots" content="noindex, nofollow">
     <title>CV | Silvia Ragni</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Libreria JavaScript per convertire il template nascosto in PDF al volo -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -31,7 +28,6 @@
 </header>
 
 <main>
-    <!-- SEZIONE HERO INIZIALE CON IL PULSANTE DI DOWNLOAD -->
     <section class="hero">
         <div class="narrow">
             <h1>Curriculum Vitae</h1>
@@ -46,7 +42,6 @@
         </div>
     </section>
 
-    <!-- VISIBILE SUL SITO: Current Position & Education -->
     <section>
         <div class="narrow">
             <h2>Current Position</h2>
@@ -95,9 +90,7 @@
     </section>
 </main>
 
-<!-- ======================================================= -->
 <!-- AREA INVISIBILE SUL SITO: STRUTTURA IMPAGINATA PER IL PDF -->
-<!-- ======================================================= -->
 <div style="display: none;">
     <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
         <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
@@ -105,7 +98,6 @@
             PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
         </p>
 
-        <!-- Current Position nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
@@ -113,7 +105,6 @@
             <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
         </div>
 
-        <!-- Education nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
         <div style="margin-bottom: 15px;">
             <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
@@ -127,22 +118,20 @@
             <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;"><em>Supervisor:</em> Paolo Rossi</p>
         </div>
 
-        <!-- Sezione Pubblicazioni nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
         <div id="pdf-publications" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading latest publications from Zotero...
         </div>
 
-        <!-- Sezione Talk nel PDF -->
         <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
         <div id="pdf-talks-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
             Loading talks...
         </div>
 
-        <!-- Sezione Conferenze Organizzate nel PDF -->
-        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
-        <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
-            Loading organized conferences...
+        <!-- BLOCCO CONFERENZE AVVOLTO DA UN ID PER POTERLO NASCONDERE COMPLETAMENTE -->
+        <div id="pdf-conferences-section" style="display: none;">
+            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
+            <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;"></div>
         </div>
     </div>
 </div>
@@ -151,7 +140,6 @@
     <p>© Silvia Ragni</p>
 </footer>
 
-<!-- SCRIPT DI SINCRO CON ZOTERO E GENERAZIONE DEL PDF -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
@@ -173,7 +161,7 @@
         ])
         .then(([pubsData, talksData, confsData]) => {
             
-            // 1. Iniezione Pubblicazioni nel PDF
+            // 1. Pubblicazioni
             const pdfPubContainer = document.getElementById("pdf-publications");
             let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasPubs = false;
@@ -190,11 +178,10 @@
             pubsHtml += "</ul>";
             pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
 
-            // 2. Iniezione Talk nel PDF (completamente rimosso dal sito visibile)
+            // 2. Talk
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasTalks = false;
-            
             if (Array.isArray(talksData)) {
                 talksData.forEach(item => {
                     const meta = item.data;
@@ -206,10 +193,12 @@
             talksHtml += "</ul>";
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
 
-            // 3. Iniezione Conferenze Organizzate nel PDF
+            // 3. Conferenze (Mostra la sezione intera SOLO se ci sono dati reali)
+            const pdfConfsSection = document.getElementById("pdf-conferences-section");
             const pdfConfsContainer = document.getElementById("pdf-conferences-list");
             let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasConfs = false;
+            
             if (Array.isArray(confsData)) {
                 confsData.forEach(item => {
                     const meta = item.data;
@@ -219,7 +208,13 @@
                 });
             }
             confsHtml += "</ul>";
-            pdfConfsContainer.innerHTML = hasConfs ? confsHtml : "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
+
+            if (hasConfs) {
+                pdfConfsContainer.innerHTML = confsHtml;
+                pdfConfsSection.style.display = "block"; // Rende visibile la sezione nel PDF
+            } else {
+                pdfConfsSection.style.display = "none";  // La tiene totalmente nascosta ed esclusa dal PDF
+            }
 
         })
         .catch(error => {
@@ -228,7 +223,6 @@
         });
     });
 
-    // Funzione stabile che compila l'A4 dal DOM sincronizzato
     function generatePDF() {
         const element = document.getElementById('cv-pdf-template');
         const btn = document.getElementById('download-btn');
