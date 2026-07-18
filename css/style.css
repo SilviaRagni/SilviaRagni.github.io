@@ -672,20 +672,23 @@ footer p{
 
 /* Stile per la striscia panoramica su PC */
 .kayak {
-    padding: 60px 0;
+    padding: 60px 0; /* Mantiene lo spazio vuoto sopra e sotto */
     width: 100%;
 }
 
 .kayak img {
     width: 100%;
-    height: 300px; /* Regola questa altezza per rendere la striscia più o meno alta */
-    object-fit: cover; /* Ritaglia la foto mantenendo le proporzioni */
-    object-position: center; /* Centra la parte visibile della foto */
+    height: 150px; /* Ridotto da 300px a 150px per un effetto "striscia" sottile */
+    object-fit: cover; 
+    object-position: center; 
     display: block;
 }
 
 /* Ripristiniamo l'aspetto normale su telefono */
 @media (max-width: 900px) {
+    .kayak {
+        padding: 20px 0; /* Meno spazio verticale su mobile */
+    }
     .kayak img {
         height: auto; /* Torna a mostrare l'intera foto su mobile */
     }
