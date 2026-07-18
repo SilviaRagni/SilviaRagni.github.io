@@ -28,6 +28,7 @@
 </header>
 
 <main>
+    <!-- TITOLO PRINCIPALE SPRAZIATO -->
     <section style="padding-top: 2.5rem; padding-bottom: 1rem;">
         <div class="narrow">
             <h1 style="font-size: 2.5rem; margin-bottom: 0;">Curriculum Vitae</h1>
@@ -82,6 +83,7 @@
         </div>
     </section>
 
+    <!-- PARTE FINALE COMPATTA PER IL DOWNLOAD -->
     <section style="padding-top: 1.5rem; padding-bottom: 2rem;">
         <div class="narrow">
             <p style="margin-bottom: 0.8rem;">Here you can download my full CV:</p>
@@ -95,9 +97,9 @@
     </section>
 </main>
 
-<!-- AREA PDF COMPLETAMENTE INVISIBILE SUL SITO -->
-<div id="cv-pdf-wrapper" style="display: none;">
-    <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5; background: #ffffff;">
+<!-- AREA PDF (Invisibile per l'utente) -->
+<div id="cv-pdf-wrapper" style="position: absolute; left: -9999px; top: -9999px; width: 210mm; background: white;">
+    <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5;">
         <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
         <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
             PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
@@ -158,9 +160,9 @@
         const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
 
         Promise.all([
-            fetch(urlPubs, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
-            fetch(urlTalks, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
-            fetch(urlConfs, { headers }).then(r => r.ok ? r.json() : []).catch(() => [])
+            fetch(urlPubs, { headers }).then(r => r.json()),
+            fetch(urlTalks, { headers }).then(r => r.json()),
+            fetch(urlConfs, { headers }).then(r => r.json())
         ])
         .then(([pubsData, talksData, confsData]) => {
             
@@ -174,8 +176,7 @@
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasPubs = true;
                     const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-                    const pubYear = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
-                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${pubYear}).</li>`;
+                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${meta.date || ""}).</li>`;
                 });
             }
             pubsHtml += "</ul>";
@@ -213,14 +214,10 @@
         })
         .catch(error => {
             console.error("Zotero Sync Error:", error);
-            document.getElementById("pdf-publications").innerHTML = "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
-            document.getElementById("pdf-talks-list").innerHTML = "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
-            document.getElementById("pdf-conferences-list").innerHTML = "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
         });
     });
 
     function generatePDF() {
-        const wrapper = document.getElementById('cv-pdf-wrapper');
         const element = document.getElementById('cv-pdf-template');
         const btn = document.getElementById('download-btn');
         const btnText = document.getElementById('btn-text');
@@ -228,30 +225,22 @@
         btnText.innerText = "Generating PDF...";
         btn.disabled = true;
 
-        wrapper.style.display = "block";
+        const opt = {
+            margin:       15,
+            filename:     'Silvia_Ragni_CV.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
 
-        setTimeout(() => {
-            const opt = {
-                margin:       15,
-                filename:     'Silvia_Ragni_CV.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save()
-            .then(() => {
-                wrapper.style.display = "none";
-                btnText.innerText = "Download Auto-Updated CV (PDF)";
-                btn.disabled = false;
-            })
-            .catch(err => {
-                console.error("PDF generation failed:", err);
-                wrapper.style.display = "none";
-                btnText.innerText = "Download Auto-Updated CV (PDF)";
-                btn.disabled = false;
-            });
-        }, 150);
+        html2pdf().set(opt).from(element).save().then(() => {
+            btnText.innerText = "Download Auto-Updated CV (PDF)";
+            btn.disabled = false;
+        }).catch(err => {
+            console.error(err);
+            btnText.innerText = "Download Auto-Updated CV (PDF)";
+            btn.disabled = false;
+        });
     }
 </script>
 
