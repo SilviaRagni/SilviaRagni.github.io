@@ -169,6 +169,10 @@ nav a:hover{
    Sections & About Integrated Layout
    ========================================================== */
 
+/* ==========================================================
+   Sections & About Integrated Layout
+   ========================================================== */
+
 section{
     padding:90px 0;
 }
@@ -178,14 +182,23 @@ section{
     padding-bottom: 60px;
 }
 
-/* Inversione dell'ordine delle colonne per posizionare la barca a sinistra su Desktop */
-#about .hero-grid {
-    direction: rtl; 
-}
+/* Usiamo flexbox su desktop per invertire l'ordine degli elementi in modo pulito */
+/* Sposta il testo sopra e la foto sotto su mobile, centrando il blocco */
+    #about .hero-grid {
+        display: flex;
+        flex-direction: column; 
+        gap: 50px;
+    }
 
-#about .sailing-side-block,
+    #about .sailing-side-block {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+    }
+
 #about .about-text-block {
-    direction: ltr; 
+    flex: 1;
+    max-width: 520px;
 }
 
 #about p:last-child{
@@ -195,7 +208,6 @@ section{
 .readmore{
     font-weight:600;
 }
-
 /* ==========================================================
    Research
    ========================================================== */
