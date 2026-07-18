@@ -668,3 +668,16 @@ footer p{
         width: 100%;
     }
 }
+
+/* Stile pulito per la foto nella sezione Research */
+.kayak {
+    padding: 20px 0 60px 0; /* Spazio sopra e sotto la foto */
+}
+
+.kayak img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; /* Angoli arrotondati come nel resto del sito */
+    display: block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Ombra leggera per staccarla dal fondo */
+}
