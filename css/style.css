@@ -169,14 +169,6 @@ nav a:hover{
    Sections & About Integrated Layout
    ========================================================== */
 
-/* ==========================================================
-   Sections & About Integrated Layout
-   ========================================================== */
-
-/* ==========================================================
-   Sections & About Integrated Layout
-   ========================================================== */
-
 section{
     padding:90px 0;
 }
@@ -186,13 +178,15 @@ section{
     padding-bottom: 60px;
 }
 
-/* Griglia dedicata per il PC: barca a sinistra, testo a destra */
+/* Griglia dedicata per il PC: usa la larghezza massima del sito */
 .about-grid {
     display: flex;
-    flex-direction: row; /* Mantiene la vela a sinistra e l'about a destra */
+    flex-direction: row; /* Foto a sinistra, testo a destra */
     justify-content: space-between;
     align-items: center;
     gap: 70px;
+    width: min(92%, var(--max-width)) !important; /* Forza la larghezza ampia stile Hero */
+    margin: auto;
 }
 
 .about-text-block {
@@ -205,10 +199,11 @@ section{
     flex-shrink: 0;
 }
 
-/* Assicura che la figura e la didascalia si muovano in un blocco unico centrato */
+/* Blocca la figura per evitare disallineamenti della didascalia */
 .sailing-side-block figure {
     display: block;
     width: 100%;
+    margin: 0;
 }
 
 #about p:last-child{
