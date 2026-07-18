@@ -100,16 +100,58 @@
     </section>
 </main>
 
+<!-- ======================================================= -->
+<!-- AREA TEMPORANEAMENTE NASCOSTA DENTRO IL DOM NATIVO      -->
+<!-- ======================================================= -->
+<div id="cv-pdf-wrapper" style="display: none;">
+    <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5; background: #fff;">
+        <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
+        <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
+            PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
+        </p>
+
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
+        <div style="margin-bottom: 15px;">
+            <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
+            <p style="margin: 2px 0 4px 0; font-size: 14px; color: #555;">Humboldt University of Berlin</p>
+            <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
+        </div>
+
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
+        <div style="margin-bottom: 15px;">
+            <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110 cum laude</p>
+            <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</p>
+            <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot and Paolo Rossi</p>
+            
+            <p style="margin: 4px 0;"><strong>2019 – 2022: BSc in Physics</strong> — University of Padua</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110</p>
+            <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Quantum mechanics in the star-product formalism</p>
+            <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;"><em>Supervisor:</em> Paolo Rossi</p>
+        </div>
+
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
+        <div id="pdf-publications" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading latest publications from Zotero...
+        </div>
+
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
+        <div id="pdf-talks-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading talks...
+        </div>
+
+        <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
+        <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">
+            Loading organized conferences...
+        </div>
+    </div>
+</div>
+
 <footer>
     <p>© Silvia Ragni</p>
 </footer>
 
 <script>
-    // Variabili globali per salvare i dati scaricati da Zotero
-    let htmlPublications = "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
-    let htmlTalks = "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
-    let htmlConferences = "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
-
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
@@ -118,126 +160,103 @@
 
         const headers = { "Zotero-API-Key": zoteroApiKey };
 
-        // 1. Scarica Pubblicazioni
+        // 1. Fetch Pubblicazioni
         const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
         fetch(urlPubs, { headers })
         .then(r => r.ok ? r.json() : [])
         .then(pubsData => {
-            if (Array.isArray(pubsData) && pubsData.length > 0) {
-                let list = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-                let count = 0;
+            const container = document.getElementById("pdf-publications");
+            let html = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasData = false;
+            if (Array.isArray(pubsData)) {
                 pubsData.forEach(item => {
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    count++;
+                    hasData = true;
                     const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-                    const year = meta.date ? meta.date : ""; 
-                    list += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
+                    html += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${meta.date || ""}).</li>`;
                 });
-                list += "</ul>";
-                if (count > 0) htmlPublications = list;
             }
-        }).catch(err => console.error(err));
+            html += "</ul>";
+            container.innerHTML = hasData ? html : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+        }).catch(() => {
+            document.getElementById("pdf-publications").innerHTML = "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+        });
 
-        // 2. Scarica Talk
+        // 2. Fetch Talk
         const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
         fetch(urlTalks, { headers })
         .then(r => r.ok ? r.json() : [])
         .then(talksData => {
-            if (Array.isArray(talksData) && talksData.length > 0) {
-                let list = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-                let count = 0;
+            const container = document.getElementById("pdf-talks-list");
+            let html = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasData = false;
+            if (Array.isArray(talksData)) {
                 talksData.forEach(item => {
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    count++;
-                    list += `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
+                    hasData = true;
+                    html += `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
                 });
-                list += "</ul>";
-                if (count > 0) htmlTalks = list;
             }
-        }).catch(err => console.error(err));
+            html += "</ul>";
+            container.innerHTML = hasData ? html : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
+        }).catch(() => {
+            document.getElementById("pdf-talks-list").innerHTML = "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
+        });
 
-        // 3. Scarica Conferenze
+        // 3. Fetch Conferenze
         const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
         fetch(urlConfs, { headers })
         .then(r => r.ok ? r.json() : [])
         .then(confsData => {
-            if (Array.isArray(confsData) && confsData.length > 0) {
-                let list = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-                let count = 0;
+            const container = document.getElementById("pdf-conferences-list");
+            let html = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasData = false;
+            if (Array.isArray(confsData)) {
                 confsData.forEach(item => {
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    count++;
-                    list += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, (${meta.date || ""}) — <em>Organizer / Organizing Committee</em></li>`;
+                    hasData = true;
+                    html += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, (${meta.date || ""}) — <em>Organizer / Organizing Committee</em></li>`;
                 });
-                list += "</ul>";
-                if (count > 0) htmlConferences = list;
             }
-        }).catch(err => console.error(err));
+            html += "</ul>";
+            container.innerHTML = hasData ? html : "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
+        }).catch(() => {
+            document.getElementById("pdf-conferences-list").innerHTML = "<p style='color:#777; font-style:italic;'>No conferences organized yet.</p>";
+        });
     });
 
-    // Funzione di generazione PDF: Costruisce il documento a schermo spento al momento del click
+    // Generatore PDF a tempo atomico
     function generatePDF() {
+        const wrapper = document.getElementById('cv-pdf-wrapper');
+        const element = document.getElementById('cv-pdf-template');
         const btn = document.getElementById('download-btn');
         const btnText = document.getElementById('btn-text');
+        
         btnText.innerText = "Generating PDF...";
         btn.disabled = true;
 
-        // Creiamo un elemento contenitore temporaneo slegato dal DOM nascosto
-        const worker = document.createElement('div');
-        worker.style.padding = '40px';
-        worker.style.fontFamily = "'Inter', sans-serif";
-        worker.style.color = '#333';
-        worker.style.lineHeight = '1.5';
-
-        worker.innerHTML = `
-            <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
-            <p style="font-size: 13px; color: #666; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 15px;">
-                PhD Student in Mathematics | Humboldt University of Berlin | silviaragni.github.io
-            </p>
-
-            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Current Position</h2>
-            <div style="margin-bottom: 15px;">
-                <p style="margin: 4px 0;"><strong>2025 – Present: PhD Student in Mathematics</strong></p>
-                <p style="margin: 2px 0 4px 0; font-size: 14px; color: #555;">Humboldt University of Berlin</p>
-                <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot, Paolo Rossi and Gavril Farkas</p>
-            </div>
-
-            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 20px;">Education</h2>
-            <div style="margin-bottom: 15px;">
-                <p style="margin: 4px 0;"><strong>2023 – 2025: MSc in Mathematics</strong> — University of Padua</p>
-                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110 cum laude</p>
-                <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Teleman's reconstruction theorem for semi-simple Cohomological Field Theories</p>
-                <p style="margin: 2px 0 12px 0; font-size: 13px; color: #666;"><em>Supervisors:</em> Gaëtan Borot and Paolo Rossi</p>
-                
-                <p style="margin: 4px 0;"><strong>2019 – 2022: BSc in Physics</strong> — University of Padua</p>
-                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #555;">Grade: 110/110</p>
-                <p style="margin: 2px 0 2px 0; font-size: 13px; color: #555;"><em>Thesis:</em> Quantum mechanics in the star-product formalism</p>
-                <p style="margin: 2px 0 4px 0; font-size: 13px; color: #666;"><em>Supervisor:</em> Paolo Rossi</p>
-            </div>
-
-            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Publications</h2>
-            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlPublications}</div>
-
-            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Talks & Presentations</h2>
-            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlTalks}</div>
-
-            <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
-            <div style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;">${htmlConferences}</div>
-        `;
+        // Mostriamo il blocco un istante prima dello scatto
+        wrapper.style.display = "block";
 
         const opt = {
             margin:       15,
             filename:     'Silvia_Ragni_CV.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        // Esegui la generazione direttamente dall'elemento creato al volo
-        html2pdf().set(opt).from(worker).save().then(() => {
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Lo rimettiamo subito invisibile appena salvato
+            wrapper.style.display = "none";
+            btnText.innerText = "Download Auto-Updated CV (PDF)";
+            btn.disabled = false;
+        }).catch(err => {
+            console.error(err);
+            wrapper.style.display = "none";
             btnText.innerText = "Download Auto-Updated CV (PDF)";
             btn.disabled = false;
         });
