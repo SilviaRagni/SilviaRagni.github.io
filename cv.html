@@ -4,15 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Blocco per rendere la pagina invisibile ai motori di ricerca finché il sito è in costruzione -->
     <meta name="robots" content="noindex, nofollow">
     <title>CV | Silvia Ragni</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Libreria JavaScript per convertire l'HTML in PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -31,14 +28,13 @@
 </header>
 
 <main>
-    <!-- TITOLO PRINCIPALE BEN DISTANZIATO -->
     <section style="padding-top: 2.5rem; padding-bottom: 1rem;">
         <div class="narrow">
             <h1 style="font-size: 2.5rem; margin-bottom: 0;">Curriculum Vitae</h1>
         </div>
     </section>
 
-    <!-- VISIBILE SUL SITO: Current Position & Education -->
+    <!-- VISIBILE SUL SITO -->
     <section style="padding-top: 1rem;">
         <div class="narrow">
             <h2>Current Position</h2>
@@ -86,7 +82,6 @@
         </div>
     </section>
 
-    <!-- PARTE FINALE COMPATTA PER IL DOWNLOAD -->
     <section style="padding-top: 1.5rem; padding-bottom: 2rem;">
         <div class="narrow">
             <p style="margin-bottom: 0.8rem;">Here you can download my full CV:</p>
@@ -100,7 +95,7 @@
     </section>
 </main>
 
-<!-- AREA INVISIBILE AL 100% UTILIZZANDO DISPLAY NONE NATIVO -->
+<!-- AREA PDF COMPLETAMENTE INVISIBILE SUL SITO -->
 <div id="cv-pdf-wrapper" style="display: none;">
     <div id="cv-pdf-template" style="padding: 40px; font-family: 'Inter', sans-serif; color: #333; line-height: 1.5; background: #ffffff;">
         <h1 style="font-size: 28px; margin-bottom: 5px; color: #111;">Silvia Ragni</h1>
@@ -162,7 +157,6 @@
         const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
         const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
 
-        // Utilizziamo Promise.all per assicurarci che l'iniezione dei dati avvenga in un solo istante stabile
         Promise.all([
             fetch(urlPubs, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
             fetch(urlTalks, { headers }).then(r => r.ok ? r.json() : []).catch(() => []),
@@ -170,7 +164,7 @@
         ])
         .then(([pubsData, talksData, confsData]) => {
             
-            // 1. Iniezione Pubblicazioni
+            // 1. Pubblicazioni
             const pdfPubContainer = document.getElementById("pdf-publications");
             let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasPubs = false;
@@ -180,14 +174,14 @@
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasPubs = true;
                     const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-                    html = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
-                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${html}).</li>`;
+                    const pubYear = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
+                    pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${pubYear}).</li>`;
                 });
             }
             pubsHtml += "</ul>";
             pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
 
-            // 2. Iniezione Talk (Solo nel PDF)
+            // 2. Talk
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasTalks = false;
@@ -202,7 +196,7 @@
             talksHtml += "</ul>";
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
 
-            // 3. Iniezione Conferenze Organizzate
+            // 3. Conferenze
             const pdfConfsContainer = document.getElementById("pdf-conferences-list");
             let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasConfs = false;
@@ -234,10 +228,8 @@
         btnText.innerText = "Generating PDF...";
         btn.disabled = true;
 
-        // Rovesciamo temporaneamente il display a "block" per permettere lo scatto visivo corretto
         wrapper.style.display = "block";
 
-        // Diamo un piccolissimo delay asincrono (100ms) per stabilizzare la sandbox grafica prima di html2pdf
         setTimeout(() => {
             const opt = {
                 margin:       15,
@@ -259,7 +251,7 @@
                 btnText.innerText = "Download Auto-Updated CV (PDF)";
                 btn.disabled = false;
             });
-        }, 100);
+        }, 150);
     }
 </script>
 
