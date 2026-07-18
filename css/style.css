@@ -4,18 +4,13 @@
    ========================================================== */
 
 :root {
-
     --primary: #1F6F8B;
     --primary-light: #2F83A3;
-
     --text: #2B2D42;
     --muted: #666666;
-
     --background: #FFFFFF;
-
     --max-width: 1100px;
     --reading-width: 760px;
-
 }
 
 *{
@@ -25,113 +20,73 @@
 }
 
 html{
-
     scroll-behavior:smooth;
-
 }
 
 body{
-
     font-family:"Inter",sans-serif;
-
     background:var(--background);
-
     color:var(--text);
-
     font-size:18px;
-
     line-height:1.8;
-
     font-weight:400;
-
 }
 
 /* ====================== */
 
 .container{
-
     width:min(92%, var(--max-width));
-
     margin:auto;
-
 }
 
 .narrow{
-
     width:min(92%, var(--reading-width));
-
     margin:auto;
-
 }
 
 /* ====================== */
 
 img{
-
     display:block;
-
     width:100%;
-
 }
 
 /* ====================== */
 
 a{
-
     color:var(--primary);
-
     text-decoration:none;
-
     transition:.25s;
-
 }
 
 a:hover{
-
     color:var(--primary-light);
-
 }
 
 /* ====================== */
 
 h1{
-
     font-size:3.7rem;
-
     font-weight:700;
-
     line-height:1.1;
-
     margin-bottom:.5rem;
-
 }
 
 h2{
-
     font-size:1.5rem;
-
     font-weight:500;
-
     color:var(--primary);
-
     margin-bottom:.5rem;
-
 }
 
 h3{
-
     font-size:1.6rem;
-
     font-weight:600;
-
     margin-bottom:2rem;
-
 }
 
 p{
-
     margin-bottom:1.4rem;
-
 }
 
 /* ==========================================================
@@ -139,71 +94,45 @@ p{
    ========================================================== */
 
 header{
-
     position:sticky;
-
     top:0;
-
     background:white;
-
     z-index:1000;
-
 }
 
 header .container{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     padding:28px 0;
-
 }
 
 .logo{
-
     font-size:1.3rem;
-
     font-weight:600;
-
     color:var(--text);
-
 }
 
 .logo:hover{
-
     color:var(--text);
-
 }
 
 nav{
-
     display:flex;
-
     gap:34px;
-
 }
 
 nav a{
-
     color:var(--muted);
-
     font-weight:500;
-
 }
 
 nav a.active{
-
     color:var(--primary);
-
 }
 
 nav a:hover{
-
     color:var(--primary);
-
 }
 
 /* ==========================================================
@@ -211,178 +140,140 @@ nav a:hover{
    ========================================================== */
 
 .hero{
-
     padding-top:70px;
-
     padding-bottom:120px;
-
 }
 
 .hero-grid{
-
     display:grid;
-
     grid-template-columns:1fr 420px;
-
     gap:70px;
-
     align-items:center;
-
 }
 
 .hero-text{
-
     max-width:520px;
-
 }
 
 .institution{
-
     color:var(--muted);
-
     font-size:1.05rem;
-
 }
 
 .hero-image img{
-
     border-radius:10px;
-
     object-fit:cover;
-
 }
 
 /* ==========================================================
-   Sections
+   Sections & About Integrated Layout
    ========================================================== */
 
 section{
-
     padding:90px 0;
+}
 
+#about {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+/* Inversione dell'ordine delle colonne per posizionare la barca a sinistra su Desktop */
+#about .hero-grid {
+    direction: rtl; 
+}
+
+#about .sailing-side-block,
+#about .about-text-block {
+    direction: ltr; 
 }
 
 #about p:last-child{
-
     margin-bottom:0;
-
 }
 
 .readmore{
-
     font-weight:600;
+}
 
-}
-    margin-top: 40px;
-}
 /* ==========================================================
    Research
    ========================================================== */
 
 #research{
-
-    padding-top:70px;
-
+    padding-top:30px;
     padding-bottom:70px;
-
 }
 
 #research strong{
-
     font-weight:600;
-
 }
 
 .readmore{
-
     display:inline-block;
-
     margin-top:10px;
-
     font-size:0.95rem;
-
     letter-spacing:.02em;
-
 }
 
 .readmore:hover{
-
     transform:translateX(4px);
-
 }
 
 /* ==========================================================
-   Sailing image
+   Sailing Side Image & Captions
    ========================================================== */
-/* ==========================================================
-   Sailing image
-   ========================================================== */
-.sailing {
-    padding: 40px 0;
-}
 
-.sailing img {
+.sailing-side-block img {
     width: 100%;
-    height: 380px; /* Altezza fissa da desktop per fare l'effetto panoramico (sottile e largo) */
-    object-fit: cover;
-    object-position: center 35%; /* Taglia un po' di più la parte in alto, tenendo la barca a fuoco */
+    height: auto;
     border-radius: 10px;
     display: block;
 }
+
+.caption-sailing {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.4;
+    text-align: left;
+}
+
 /* ==========================================================
    News + Contact
    ========================================================== */
 
 .news-contact{
-
-    padding-top:60px;
-
+    padding-top:40px;
     padding-bottom:100px;
-
 }
 
 .two-columns{
-
     display:grid;
-
     grid-template-columns:2fr 1fr;
-
     gap:80px;
-
     align-items:start;
-
 }
 
 .news-contact ul{
-
     list-style:none;
-
     padding:0;
-
 }
 
 .news-contact li{
-
     margin-bottom:28px;
-
 }
 
 .news-contact strong{
-
     color:var(--primary);
-
 }
 
 .news-contact p{
-
     margin-bottom:0;
-
 }
 
 .contact-email{
-
     word-break:break-word;
-
 }
 
 /* ==========================================================
@@ -390,41 +281,25 @@ section{
    ========================================================== */
 
 .mountain{
-
     width:min(92%,1000px);
-
     margin:auto;
-
-    padding-top:20px;
-
+    padding-top:30px;
     padding-bottom:90px;
-
 }
 
 .mountain img{
-
     width:100%;
-
     border-radius:10px;
-
     object-fit:cover;
-
 }
 
 .caption{
-
     max-width:700px;
-
     margin:25px auto 0;
-
     text-align:center;
-
     font-size:.95rem;
-
     color:var(--muted);
-
     line-height:1.8;
-
 }
 
 /* ==========================================================
@@ -432,16 +307,12 @@ section{
    ========================================================== */
 
 footer{
-
-    padding:50px 0;
-
+    padding:30px 0;
     text-align:center;
-
     font-size:.9rem;
-
     color:#888;
-
 }
+
 /* ==========================================================
    Responsive
    ========================================================== */
@@ -449,126 +320,90 @@ footer{
 @media (max-width: 900px){
 
     body{
-
         font-size:17px;
-
     }
 
     header .container{
-
         flex-direction:column;
-
         gap:20px;
-
         padding:24px 0;
-
     }
 
     nav{
-
         gap:24px;
-
         flex-wrap:wrap;
-
         justify-content:center;
-
     }
 
     .hero{
-
         padding-top:40px;
         padding-bottom:80px;
-
     }
 
     .hero-grid{
-
         grid-template-columns:1fr;
-
         gap:50px;
+    }
 
+    /* Ripristino dell'ordine naturale dall'alto in basso su mobile */
+    #about .hero-grid {
+        direction: ltr;
     }
 
     .hero-text{
-
         max-width:100%;
         text-align:center;
-
     }
 
-    .hero-image{
-
+    .hero-image, .sailing-side-block{
         max-width:500px;
         margin:auto;
+    }
 
+    .caption-sailing {
+        text-align: center;
     }
 
     .two-columns{
-
         grid-template-columns:1fr;
-
         gap:60px;
-
     }
 
     .mountain{
-
         width:94%;
-
     }
-
 }
 
 @media (max-width: 600px){
 
     h1{
-
         font-size:2.5rem;
-
     }
 
     h2{
-
         font-size:1.2rem;
-
     }
 
     h3{
-
         font-size:1.35rem;
-
     }
 
     section{
-
         padding:60px 0;
-
     }
 
     .hero{
-
         padding-top:20px;
-
     }
 
     .hero-image img{
-
         border-radius:8px;
-
-    }
-
-    .sailing img {
-        height: 180px; /* Più sottile e panoramica da telefono, senza deformarsi */
     }
 
     .caption{
-
         font-size:.9rem;
-
         padding:0 10px;
-
     }
-
 }
 
 /* ==========================================================
@@ -576,150 +411,80 @@ footer{
    ========================================================== */
 
 ::selection{
-
     background:rgba(31,111,139,.18);
-
 }
 
 .logo,
 nav a,
 .readmore{
-
     transition:all .25s ease;
-
 }
 
 .hero-image img,
-.sailing img,
+.sailing-side-block img,
 .mountain img{
-
     transition:transform .35s ease;
-
 }
 
 .hero-image img:hover,
-.sailing img:hover,
+.sailing-side-block img:hover,
 .mountain img:hover{
-
     transform:scale(1.01);
-
 }
 
 strong{
-
     font-weight:600;
-
 }
 
 em{
-
     font-style:italic;
-
 }
 
 ul{
-
     margin-left:0;
-
 }
 
 li{
-
     line-height:1.8;
-
 }
 
 footer p{
-
     margin:0;
-
 }
 
 /* ==========================================================
-   Better spacing
+   Publications
    ========================================================== */
 
-#about{
-
-    padding-top:40px;
-
-}
-
-#research{
-
-    padding-top:30px;
-
-}
-
-.news-contact{
-
-    padding-top:40px;
-
-}
-
-.mountain{
-
-    padding-top:30px;
-
-}
-
-footer{
-
-    padding-top:30px;
-
-}
-/* ==========================================================
-
-   Publications
-
-========================================================== */
-
 #publications{
-
     margin-top:45px;
-
 }
 
 .publication{
-
     margin-bottom:40px;
-
 }
 
 .publication-title{
-
     font-weight:600;
-
     font-size:1.1rem;
-
 }
 
 .publication-authors{
-
     color:var(--muted);
-
     margin-top:6px;
-
 }
 
 .publication-journal{
-
     margin-top:8px;
-
     font-style:italic;
-
 }
 
 .publication-links{
-
     margin-top:10px;
-
 }
 
 .publication-links a{
-
     margin-right:18px;
-
 }
 
 /* ==========================================================
@@ -727,63 +492,41 @@ footer{
    ========================================================== */
 
 .cv-item{
-
     display:grid;
-
     grid-template-columns:140px 1fr;
-
     gap:40px;
-
     margin-bottom:60px;
-
 }
 
 .cv-year{
-
     color:var(--primary);
-
     font-weight:600;
-
 }
 
 .cv-content p{
-
     margin-top:12px;
-
 }
 
 @media (max-width:700px){
-
     .cv-item{
-
         grid-template-columns:1fr;
-
         gap:10px;
-
         margin-bottom:45px;
-
     }
-
 }
 
 /* ===================================================== */
 
 .conference-item{
-
     margin-bottom:40px;
-
 }
 
 .conference-item p{
-
     margin-bottom:8px;
-
 }
 
 .conference-item a{
-
     font-weight:500;
-
 }
 
 /* ==========================================================
@@ -791,34 +534,25 @@ footer{
    ========================================================== */
 
 .news-item{
-
     margin-bottom:28px;
-
 }
 
 .news-item:last-child{
-
     margin-bottom:0;
-
 }
 
 .news-item strong{
-
     color:var(--primary);
-
     font-weight:600;
-
 }
 
 /* --- STILE PUBBLICAZIONI "AL-FOLIO" (STILE YANNIK SCHULER) --- */
 
-/* Contenitore della timeline */
 .publications-timeline {
     margin-top: 2rem;
     font-family: 'Inter', sans-serif;
 }
 
-/* Riga a due colonne: anno a sinistra (20%), lista a destra (80%) */
 .pub-row {
     display: flex;
     margin-bottom: 2.5rem;
@@ -830,7 +564,6 @@ footer{
     border-bottom: none;
 }
 
-/* Colonna dell'anno */
 .pub-year {
     width: 15%;
     font-size: 1.4rem;
@@ -839,7 +572,6 @@ footer{
     padding-top: 0.2rem;
 }
 
-/* Colonna dei paper */
 .pub-list-container {
     width: 85%;
 }
@@ -858,7 +590,6 @@ footer{
     margin-bottom: 0;
 }
 
-/* Dettagli dell'articolo */
 .pub-item {
     font-size: 1rem;
     line-height: 1.6;
@@ -874,7 +605,6 @@ footer{
     color: #555;
 }
 
-/* Pulsanti stile "Abs", "Link", "DOI" */
 .pub-links {
     margin-top: 0.4rem;
     display: flex;
@@ -900,7 +630,6 @@ footer{
     background-color: #f0f0f0;
 }
 
-/* Box dell'abstract a comparsa */
 .pub-abstract {
     margin-top: 0.8rem;
     padding: 0.8rem 1rem;
@@ -913,7 +642,6 @@ footer{
     text-align: justify;
 }
 
-/* Ottimizzazione per dispositivi mobili (schermi piccoli) */
 @media (max-width: 768px) {
     .pub-row {
         flex-direction: column;
