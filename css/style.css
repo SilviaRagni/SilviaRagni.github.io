@@ -178,32 +178,14 @@ section{
     padding-bottom: 60px;
 }
 
-/* Griglia dedicata per il PC: usa la larghezza massima del sito */
-.about-grid {
-    display: flex;
-    flex-direction: row; /* Foto a sinistra, testo a destra */
-    justify-content: space-between;
-    align-items: center;
-    gap: 70px;
-    width: min(92%, var(--max-width)) !important; /* Forza la larghezza ampia stile Hero */
-    margin: auto;
-}
-
-.about-text-block {
-    flex: 1;
-    max-width: 520px;
-}
-
-.sailing-side-block {
-    width: 420px;
-    flex-shrink: 0;
-}
-
-/* Blocca la figura per evitare disallineamenti della didascalia */
-.sailing-side-block figure {
-    display: block;
+/* Forza la vela (colonna da 420px) a sinistra e il testo a destra su PC */
+#about .sailing-side-block {
+    grid-column: 1;
     width: 100%;
-    margin: 0;
+}
+
+#about .about-text-block {
+    grid-column: 2;
 }
 
 #about p:last-child{
@@ -213,6 +195,7 @@ section{
 .readmore{
     font-weight:600;
 }
+
 /* ==========================================================
    Research
    ========================================================== */
@@ -248,12 +231,19 @@ section{
     display: block;
 }
 
+.sailing-side-block figure {
+    display: block;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
 .caption-sailing {
     margin-top: 25px;
-    font-size: 0.95rem; /* Stessa dimensione della Capanna Margherita */
+    font-size: 0.95rem;
     color: var(--muted);
     line-height: 1.8;
-    text-align: center; /* Centra il testo */
+    display: block;
 }
 
 /* ==========================================================
@@ -358,34 +348,31 @@ footer{
     }
 
     .hero-grid{
-        grid-template-columns:1fr;
+        display:flex;
+        flex-direction:column;
         gap:50px;
     }
 
-   /* Forza il testo dell'About SOPRA e la vela SOTTO sui telefoni */
-    .about-grid {
-        display: flex;
-        flex-direction: column-reverse; 
-        gap: 40px;
+    /* Gestione ordine su mobile: testo sopra (order 1), foto sotto (order 2) */
+    #about .about-text-block {
+        order: 1;
     }
-
-    .sailing-side-block {
+    
+    #about .sailing-side-block {
+        order: 2;
         width: 100%;
         max-width: 500px;
         margin: auto;
     }
+
     .hero-text{
         max-width:100%;
         text-align:center;
     }
 
-    .hero-image, .sailing-side-block{
+    .hero-image{
         max-width:500px;
         margin:auto;
-    }
-
-    .caption-sailing {
-        text-align: center;
     }
 
     .two-columns{
