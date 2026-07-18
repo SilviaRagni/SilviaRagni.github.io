@@ -669,15 +669,24 @@ footer p{
     }
 }
 
-/* Stile pulito per la foto nella sezione Research */
+
+/* Stile per la striscia panoramica su PC */
 .kayak {
-    padding: 20px 0 60px 0; /* Spazio sopra e sotto la foto */
+    padding: 60px 0;
+    width: 100%;
 }
 
 .kayak img {
     width: 100%;
-    height: auto;
-    border-radius: 10px; /* Angoli arrotondati come nel resto del sito */
+    height: 300px; /* Regola questa altezza per rendere la striscia più o meno alta */
+    object-fit: cover; /* Ritaglia la foto mantenendo le proporzioni */
+    object-position: center; /* Centra la parte visibile della foto */
     display: block;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Ombra leggera per staccarla dal fondo */
+}
+
+/* Ripristiniamo l'aspetto normale su telefono */
+@media (max-width: 900px) {
+    .kayak img {
+        height: auto; /* Torna a mostrare l'intera foto su mobile */
+    }
 }
