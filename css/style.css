@@ -697,9 +697,10 @@ footer p{
 /* --- AGGIUNTE CONFERENCES MODIFICATE --- */
 
 /* Foto a destra come nella Home (420px) */
+/* Layout affiancato Header + Foto */
 .flex-header-photo {
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important; /* Cambiato da flex-start a center */
     gap: 40px !important;
     margin-bottom: 40px !important;
 }
@@ -729,7 +730,7 @@ footer p{
     width: 100% !important;
     height: 250px !important; /* Altezza aggiornata a 250px */
     object-fit: cover !important; 
-    object-position: 50% 30% !important; /* Regola il 30% per il centraggio verticale */
+    object-position: 40% 20% !important; /* Regola il 30% per il centraggio verticale */
 }
 
 @media (max-width: 900px) {
