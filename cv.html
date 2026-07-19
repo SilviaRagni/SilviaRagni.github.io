@@ -191,9 +191,9 @@
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasConfs = true;
-                    const organisers = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+                    const organizers = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
                     const dateStr = (meta.date || "").replace(/[()]/g, '');
-                    confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, ${dateStr} ${organisers ? '— <em>Organisers: ' + organisers + '</em>' : ''}</li>`;
+                    confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, ${dateStr} ${organizers ? '— <em>organizers: ' + organizers + '</em>' : ''}</li>`;
                 });
             }
             if (hasConfs) {
