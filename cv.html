@@ -128,7 +128,6 @@
             Loading talks...
         </div>
 
-        <!-- BLOCCO CONFERENZE AVVOLTO DA UN ID PER POTERLO NASCONDERE COMPLETAMENTE -->
         <div id="pdf-conferences-section" style="display: none;">
             <h2 style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-top: 25px;">Conferences Organized</h2>
             <div id="pdf-conferences-list" style="font-size: 13px; line-height: 1.6; margin-bottom: 20px;"></div>
@@ -144,98 +143,65 @@
     document.addEventListener("DOMContentLoaded", function() {
         const zoteroUserId = "16370800"; 
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
-        
-        const talksKey = "GMH2XZNB"; 
-        const confKey = "DZDN49EL"; 
-
-        const urlPubs = `https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`;
-        const urlTalks = `https://api.zotero.org/users/${zoteroUserId}/collections/${talksKey}/items?format=json&limit=100`;
-        const urlConfs = `https://api.zotero.org/users/${zoteroUserId}/collections/${confKey}/items?format=json&limit=100`;
-
         const headers = { "Zotero-API-Key": zoteroApiKey };
 
         Promise.all([
-            fetch(urlPubs, { headers }).then(r => r.json().catch(() => [])),
-            fetch(urlTalks, { headers }).then(r => r.json().catch(() => [])),
-            fetch(urlConfs, { headers }).then(r => r.json().catch(() => []))
+            fetch(`https://api.zotero.org/users/${zoteroUserId}/publications/items?format=json&limit=100`, { headers }).then(r => r.json().catch(() => [])),
+            fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/GMH2XZNB/items?format=json&limit=100`, { headers }).then(r => r.json().catch(() => [])),
+            fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/DZDN49EL/items?format=json&limit=100`, { headers }).then(r => r.json().catch(() => []))
         ])
         .then(([pubsData, talksData, confsData]) => {
             
             // 1. Pubblicazioni
             const pdfPubContainer = document.getElementById("pdf-publications");
             let pubsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-            let hasPubs = false;
             if (Array.isArray(pubsData)) {
                 pubsData.forEach(item => {
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    hasPubs = true;
                     const authors = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
                     const year = meta.date ? (meta.date.match(/\b(19|20)\d{2}\b/) || [""])[0] : "";
                     pubsHtml += `<li style="margin-bottom: 6px;">"${meta.title}", ${authors}. <em>${meta.publicationTitle || meta.publisher || ""}</em> (${year}).</li>`;
                 });
             }
-            pubsHtml += "</ul>";
-            pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
+            pdfPubContainer.innerHTML = pubsHtml + "</ul>";
 
-            // 2. Talk
             // 2. Talk
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-            let hasTalks = false;
             if (Array.isArray(talksData)) {
                 talksData.forEach(item => {
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    hasTalks = true;
-                    
-                    // Rimuoviamo "Seminar" se presente nel meetingName
                     const meeting = (meta.meetingName && meta.meetingName !== "Seminar") ? meta.meetingName + " – " : "";
-                    
-                    // Puliamo la data: rimuoviamo le parentesi se ci sono
-                    let dateStr = meta.date || "";
-                    dateStr = dateStr.replace(/[()]/g, ''); 
-                    
+                    const dateStr = (meta.date || "").replace(/[()]/g, ''); 
                     talksHtml += `<li><strong>"${meta.title}"</strong>, ${meeting}${meta.place || ""}, ${dateStr}.</li>`;
                 });
             }
-            talksHtml += "</ul>";
-            pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
+            pdfTalksContainer.innerHTML = talksHtml + "</ul>";
 
-            // 3. Conferenze (Mostra la sezione intera SOLO se ci sono dati reali)
-           // 3. Conferenze (Sostituisci questo blocco nel tuo script)
-const pdfConfsSection = document.getElementById("pdf-conferences-section");
-const pdfConfsContainer = document.getElementById("pdf-conferences-list");
-let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-let hasConfs = false;
+            // 3. Conferenze
+            const pdfConfsSection = document.getElementById("pdf-conferences-section");
+            const pdfConfsContainer = document.getElementById("pdf-conferences-list");
+            let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+            let hasConfs = false;
 
-if (Array.isArray(confsData)) {
-    confsData.forEach(item => {
-        const meta = item.data;
-        if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-        hasConfs = true;
-        
-        // Estrazione Organizzatori
-        const organisers = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
-        
-        // Pulizia data (rimozione parentesi)
-        const dateStr = (meta.date || "").replace(/[()]/g, '');
-        
-        // Riga con il formato richiesto
-        confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, ${dateStr} ${organisers ? '— <em>Organisers: ' + organisers + '</em>' : ''}</li>`;
-        });
-        }
-        confsHtml += "</ul>";
-
-        if (hasConfs) {
-            pdfConfsContainer.innerHTML = confsHtml;
-            pdfConfsSection.style.display = "block";
-        } else {
-            pdfConfsSection.style.display = "none";
-        }        .catch(error => {
-            console.error("Zotero Sync Error:", error);
-            document.getElementById("pdf-publications").innerHTML = "<p>Data temporarily unavailable.</p>";
-        });
+            if (Array.isArray(confsData)) {
+                confsData.forEach(item => {
+                    const meta = item.data;
+                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+                    hasConfs = true;
+                    const organisers = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+                    const dateStr = (meta.date || "").replace(/[()]/g, '');
+                    confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, ${dateStr} ${organisers ? '— <em>Organisers: ' + organisers + '</em>' : ''}</li>`;
+                });
+            }
+            if (hasConfs) {
+                pdfConfsContainer.innerHTML = confsHtml + "</ul>";
+                pdfConfsSection.style.display = "block";
+            }
+        })
+        .catch(error => { console.error("Zotero Sync Error:", error); });
     });
 
     function generatePDF() {
