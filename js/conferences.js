@@ -1,54 +1,40 @@
 document.addEventListener("DOMContentLoaded", async function() {
-    const userId = "16370800";
-    const talkApiKey = "GMH2XZNB"; 
-    const orgApiKey = "DZDN49EL";
+    const zoteroUserId = "16370800";
+    // Chiave che sappiamo funzionare nel CV
+    const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
+    
+    // Le chiavi delle tue collezioni
+    const talksKey = "GMH2XZNB"; 
+    const confKey = "DZDN49EL"; 
 
-    // Funzione di utilità per attendere
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const headers = { "Zotero-API-Key": zoteroApiKey };
 
-    async function loadTalks() {
+    // 1. CARICAMENTO COLLEZIONI ZOTERO
+    async function loadCollection(collectionKey, containerId, isOrganised = false) {
         try {
-            const response = await fetch(`https://api.zotero.org/users/${userId}/items?tag=talk&format=json`, {
-                headers: { "Authorization": `Bearer ${talkApiKey}`, "Zotero-API-Version": "3" }
-            });
-            if (!response.ok) throw new Error(`Status ${response.status}`);
+            const url = `https://api.zotero.org/users/${zoteroUserId}/collections/${collectionKey}/items?format=json&limit=50`;
+            const response = await fetch(url, { headers });
             const data = await response.json();
-            const container = document.getElementById("talks-container");
-            if (container) {
+            
+            const container = document.getElementById(containerId);
+            if (container && data.length > 0) {
+                if (isOrganised) document.getElementById("organized-section").style.display = "block";
                 container.innerHTML = data.map(item => `
                     <div class="conference-item">
                         <p><strong>${item.data.date || ""}</strong><br>${item.data.title}</p>
                     </div>
                 `).join("");
             }
-        } catch (e) { console.error("Errore caricamento Talks:", e); }
+        } catch (e) { console.error("Errore Zotero:", e); }
     }
 
-    async function loadOrganised() {
-        try {
-            const response = await fetch(`https://api.zotero.org/users/${userId}/items?tag=organised&format=json`, {
-                headers: { "Authorization": `Bearer ${orgApiKey}`, "Zotero-API-Version": "3" }
-            });
-            if (!response.ok) throw new Error(`Status ${response.status}`);
-            const data = await response.json();
-            const orgSection = document.getElementById("organized-section");
-            if (orgSection && data.length > 0) {
-                orgSection.style.display = "block";
-                document.getElementById("organized-container").innerHTML = data.map(item => `
-                    <div class="conference-item">
-                        <p>${item.data.title}</p>
-                    </div>
-                `).join("");
-            }
-        } catch (e) { console.error("Errore caricamento Organised:", e); }
-    }
-
+    // 2. CARICAMENTO JSON LOCALE (Quello che avevi già)
     async function loadAttended() {
         try {
-            const response = await fetch("data/conferences.json");
-            const data = await response.json();
+            const res = await fetch("data/conferences.json");
+            const data = await res.json();
             const container = document.getElementById("attended-container");
-            if (container) {
+            if (container && data.travels) {
                 container.innerHTML = data.travels.map(conf => `
                     <div class="conference-item">
                         <p>
@@ -59,13 +45,13 @@ document.addEventListener("DOMContentLoaded", async function() {
                     </div>
                 `).join("");
             }
-        } catch (e) { console.error("Errore caricamento JSON Attended:", e); }
+        } catch (e) { console.error("Errore caricamento JSON:", e); }
     }
 
-    // Esecuzione sequenziale con attesa per evitare il 429
-    await loadTalks();
-    await sleep(1000); 
-    await loadOrganised();
-    await sleep(1000);
-    await loadAttended();
+    // Esecuzione in parallelo per velocità
+    await Promise.all([
+        loadCollection(talksKey, "talks-container"),
+        loadCollection(confKey, "organized-container", true),
+        loadAttended()
+    ]);
 });
