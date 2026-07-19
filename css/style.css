@@ -1,5 +1,5 @@
 /* ==========================================================
-   Silvia Ragni – Personal Website
+   Silvia Ragni – Personal Website (Completo)
    ========================================================== */
 
 :root {
@@ -26,26 +26,42 @@ body{
 
 .container{ width:min(92%, var(--max-width)); margin:auto; }
 .narrow{ width:min(92%, var(--reading-width)); margin:auto; }
-
 img{ display:block; width:100%; }
-
 a{ color:var(--primary); text-decoration:none; transition:.25s; }
 a:hover{ color:var(--primary-light); }
 
 h1{ font-size:3.7rem; font-weight:700; line-height:1.1; margin-bottom:.5rem; }
 h2{ font-size:1.5rem; font-weight:500; color:var(--primary); margin-bottom:.5rem; }
+h3{ font-size:1.6rem; font-weight:600; margin-bottom:2rem; }
 p{ margin-bottom:1.4rem; }
 
-/* --- Layout Header & Nav --- */
+/* Header */
 header{ position:sticky; top:0; background:white; z-index:1000; }
 header .container{ display:flex; justify-content:space-between; align-items:center; padding:28px 0; }
+.logo{ font-size:1.3rem; font-weight:600; color:var(--text); }
 nav{ display:flex; gap:34px; }
 nav a{ color:var(--muted); font-weight:500; }
 nav a.active, nav a:hover{ color:var(--primary); }
 
-/* --- Layout Nuovi (Conferences & Research) --- */
+/* Sezioni esistenti */
 section{ padding:90px 0; }
+.hero{ padding-top:70px; padding-bottom:120px; }
+.hero-grid{ display:grid; grid-template-columns:1fr 420px; gap:70px; align-items:center; }
+.hero-text{ max-width:520px; }
+.two-columns{ display:grid; grid-template-columns:2fr 1fr; gap:80px; align-items:start; }
 
+/* CV e Publications (tua struttura originale) */
+.cv-item{ display:grid; grid-template-columns:140px 1fr; gap:40px; margin-bottom:60px; }
+.cv-year{ color:var(--primary); font-weight:600; }
+.pub-row { display: flex; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 1.5rem; }
+.pub-year { width: 15%; font-size: 1.4rem; font-weight: 700; color: #333; }
+.pub-list-container { width: 85%; }
+
+/* ==========================================================
+   Nuovo Layout Conferences (Aggiunto in fondo)
+   ========================================================== */
+
+/* Layout affiancato Header + Foto */
 .flex-header-photo {
     display: flex !important;
     align-items: flex-start !important;
@@ -61,7 +77,7 @@ section{ padding:90px 0; }
 }
 .caption { font-size: 0.85em !important; color: #666 !important; margin-top: 10px !important; font-style: italic !important; }
 
-/* Striscia full-width (usata per kayak e mare) */
+/* Striscia mare/kayak (Full Width) */
 .sea-strip, .kayak {
     width: 100vw !important;
     position: relative !important;
@@ -77,26 +93,13 @@ section{ padding:90px 0; }
     object-position: center !important;
 }
 
-/* --- Pubblicazioni & CV --- */
-.publications-timeline { margin-top: 2rem; }
-.pub-row { display: flex; margin-bottom: 2.5rem; border-bottom: 1px solid #f0f0f0; padding-bottom: 1.5rem; }
-.pub-year { width: 15%; font-size: 1.4rem; font-weight: 700; color: #333; }
-.pub-list-container { width: 85%; }
-.pub-btn { padding: 0.15rem 0.5rem; font-size: 0.8rem; border: 1px solid #ccc; border-radius: 4px; background: #fafafa; }
-
-/* --- Mobile Responsiveness --- */
+/* Responsive generale */
 @media (max-width: 900px){
     header .container{ flex-direction:column; gap:20px; }
+    .hero-grid{ grid-template-columns:1fr; gap:50px; }
     .flex-header-photo { flex-direction: column !important; }
     .sea-strip, .kayak { padding: 30px 0 !important; }
     .sea-strip img, .kayak img { height: auto !important; }
-    .pub-row { flex-direction: column; }
-    .pub-year { width: 100%; margin-bottom: 1rem; }
-    .pub-list-container { width: 100%; }
 }
 
-/* ==========================================================
-   Footer & Utils
-   ========================================================== */
 footer{ padding:30px 0; text-align:center; font-size:.9rem; color:#888; }
-strong{ font-weight:600; }
