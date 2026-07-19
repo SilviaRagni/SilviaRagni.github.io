@@ -1,5 +1,4 @@
 {
-  
   "travels": [
     {
       "date": "07-11/09/2026",
@@ -13,40 +12,35 @@
       "location": "Università degli Studi di Padova, Padova, Italy",
       "website": "https://sites.google.com/view/ricercatorialgeometria/home"
     },
-    
     {
       "date": "24-28/08/2026",
       "conference": "Simons School on Moduli of Curves, Abelian Varieties and K3 Surfaces",
       "location": "Rényi Institute, Budapest, Hungary",
       "website": "https://erdoscenter.renyi.hu/events/simons-school-moduli-curves-abelian-varieties-and-k3-surfaces"
     },
-    
     {
       "date": "22/06-03/07/2026",
       "conference": "Refinements in Enumerative Geometry and Physics",
       "location": "ICTS, Bengaluru, India",
       "website": "https://www.icts.res.in/program/regp-2026"
     },
-
     {
       "date": "09-12/06/2026",
       "conference": "Enumerative geometry, rationality, derived categories and interactions",
       "location": "Institut de Mathématique d'Orsay, Orsay, France",
       "website": "https://sites.google.com/view/gercatd26"
     },
-
     {
       "date": "27-29/05/2026",
       "conference": "A Celebration of Women in Mathematics",
       "location": "Humboldt-Universität zu Berlin, Berlin, Germany",
       "website": "https://sites.google.com/view/a-celebration-of-women-in-math/startseite"
     },
-
     {
-      "date": "16_20/03/2026",
+      "date": "16-20/03/2026",
       "conference": "Riemann 200: Mathematics and Physics",
       "location": "Leibniz Universität, Hannover, Germany",
       "website": "https://konferenz.uni-hannover.de/event/173/"
-    } 
+    }
   ]
 }
