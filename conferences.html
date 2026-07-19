@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,52 +26,83 @@
 </header>
 
 <main>
-    <!-- Sezione Intestazione con Foto a destra -->
     <section class="hero">
-    <div class="container hero-grid">
-        <!-- Parte Testuale -->
-        <div class="hero-text">
-            <h1>Conferences</h1>
-            <p>One of the things I really like of my job is travelling.</p>
-            <p>Here you can find a list of my talks and of the recent or future conferences I am attending.</p>
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1>Conferences</h1>
+                <p>One of the things I really like of my job is travelling.</p>
+                <p>Here you can find a list of my talks and of the recent or future conferences I am attending.</p>
+            </div>
+            <div class="hero-image">
+                <img src="images/India_Malavika.jpeg" alt="Conferences">
+                <p class="caption">Kozhikode, India, 2026</p>
+            </div>
         </div>
+    </section>
 
-        <!-- Parte Immagine -->
-        <div class="hero-image">
-            <img src="images/India_Malavika.jpeg" alt="Conferences">
-            <p class="caption">Kozhikode, India, 2026</p>
-        </div>
-    </div>
-</section>
-
-    <!-- Sezione Talks (da Zotero) -->
     <section id="talks-section" class="narrow">
         <h2>Talks</h2>
         <div id="talks-container">Loading talks...</div>
     </section>
 
-    <!-- Sezione Organised (Condizionale) -->
     <section id="organized-section" class="narrow" style="display:none;">
         <h2>Organised conferences</h2>
         <div id="organized-container"></div>
     </section>
 
-    <!-- Foto Mare (Striscia) -->
     <section class="sea-strip">
         <img src="images/India_sea.jpeg" alt="India Sea">
     </section>
 
-    <!-- Sezione Attended (da conferences.json) -->
     <section id="attended-section" class="narrow">
         <h2>Attended conferences</h2>
         <div id="attended-container">Loading conferences...</div>
     </section>
 </main>
 
-<footer>
-    <p>© Silvia Ragni</p>
-</footer>
+<footer><p>© Silvia Ragni</p></footer>
 
-<script src="js/conferences.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", async function() {
+        const zoteroUserId = "16370800"; 
+        const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
+        const headers = { "Zotero-API-Key": zoteroApiKey };
+
+        // 1. Caricamento Zotero (Talks & Organised)
+        async function fetchZotero(collectionKey, containerId, isOrg = false) {
+            try {
+                const response = await fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/${collectionKey}/items?format=json&limit=50`, { headers });
+                const data = await response.json();
+                const container = document.getElementById(containerId);
+                if (container && data.length > 0) {
+                    if (isOrg) document.getElementById("organized-section").style.display = "block";
+                    container.innerHTML = data.map(item => `
+                        <div class="conference-item">
+                            <p><strong>${item.data.date || ""}</strong><br>${item.data.title}</p>
+                        </div>
+                    `).join("");
+                }
+            } catch (e) { console.error("Zotero Error:", e); }
+        }
+
+        // 2. Caricamento JSON locale
+        async function fetchLocal() {
+            try {
+                const res = await fetch("data/conferences.json");
+                const data = await res.json();
+                document.getElementById("attended-container").innerHTML = data.travels.map(conf => `
+                    <div class="conference-item">
+                        <p><strong>${conf.date}</strong><br><a href="${conf.website}" target="_blank">${conf.conference}</a><br><em>${conf.location}</em></p>
+                    </div>
+                `).join("");
+            } catch (e) { console.error("JSON Error:", e); }
+        }
+
+        // Esecuzione
+        await fetchZotero("GMH2XZNB", "talks-container");
+        await fetchZotero("DZDN49EL", "organized-container", true);
+        await fetchLocal();
+    });
+</script>
 </body>
 </html>
