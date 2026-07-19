@@ -93,13 +93,21 @@
                 // Se è un talk, cerchiamo il meeting nel campo 'meetingName'. Se è atto di convegno, in 'proceedingsTitle'
                 // 1. Estrazione Nome del Convegno / Evento
                 // d.publicationTitle intercetta "Nome del convegno" negli Atti di convegno
-                const meeting = isTalk ? (d.meetingName || "Seminar") : (d.publicationTitle || d.proceedingsTitle || "");
+                // 1. Estrazione e pulizia (trim() rimuove spazi vuoti invisibili)
+            const rawMeeting = (isTalk ? (d.meetingName || "Seminar") : (d.publicationTitle || d.proceedingsTitle || ""));
+            const meeting = rawMeeting ? rawMeeting.trim() : "";
 
-                // 2. Estrazione Luogo 
-                const place = d.place || d.publisherPlace || "";
+            const rawPlace = (d.place || d.publisherPlace || "");
+            const place = rawPlace ? rawPlace.trim() : "";
 
-                // 3. Costruzione intelligente della riga (evita virgole se uno dei due è vuoto)
-                const locationLine = (meeting && place) ? `${meeting}, ${place}` : (meeting || place || "");
+            // 2. Logica di costruzione
+            let locationLine = "";
+            if (meeting !== "" && place !== "") {
+                locationLine = `${meeting}, ${place}`;
+            } 
+            else {
+                locationLine = meeting || place || "";
+            }
                 
                 // 3. Gestione PDF
                 const childRes = await fetch(`https://api.zotero.org/users/${zoteroUserId}/items/${item.key}/children?format=json`, { headers });
