@@ -694,19 +694,29 @@ footer p{
     }
 }
 
-/* --- AGGIUNTE CONFERENCES --- */
+/* --- AGGIUNTE CONFERENCES MODIFICATE --- */
 
+/* Foto a destra come nella Home (420px) */
 .flex-header-photo {
     display: flex !important;
     align-items: flex-start !important;
     gap: 40px !important;
     margin-bottom: 40px !important;
 }
-.text-content { flex: 2 !important; }
-.photo-content { flex: 1 !important; text-align: center; }
-.photo-content img { width: 100% !important; border-radius: 10px !important; box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; }
+.text-content { flex: 1 !important; } 
+.photo-content { 
+    width: 420px !important; 
+    flex-shrink: 0 !important; 
+    text-align: center; 
+}
+.photo-content img { 
+    width: 100% !important; 
+    border-radius: 10px !important; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; 
+}
 .caption { font-size: 0.85em !important; color: #666 !important; margin-top: 10px !important; font-style: italic !important; }
 
+/* Striscia mare centrata sul volto (altezza 250px) */
 .sea-strip {
     width: 100vw !important;
     position: relative !important;
@@ -717,12 +727,13 @@ footer p{
 }
 .sea-strip img {
     width: 100% !important;
-    height: 250px !important;
-    object-fit: cover !important;
-    object-position: center !important;
+    height: 250px !important; /* Altezza aggiornata a 250px */
+    object-fit: cover !important; 
+    object-position: 50% 30% !important; /* Regola il 30% per il centraggio verticale */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .flex-header-photo { flex-direction: column !important; }
+    .photo-content { width: 100% !important; } 
     .sea-strip { padding: 30px 0 !important; }
 }
