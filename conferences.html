@@ -122,12 +122,12 @@
                 }
                 const authorsHtml = (isOrg && authors) ? `<br><span style="font-size:0.9em; color:#555;">Organized by: ${authors}</span>` : "";
 
-                // 5. Stampa finale
+                // 5. Stampa finale - USA locationLine qui sotto!
                 container.innerHTML += `
                     <div class="conference-item" style="margin-bottom: 20px;">
                         <p><strong>${d.date || ""}</strong><br>
                         ${titleDisplay}${slidesLink}<br>
-                        <span style="font-style:italic;">${meeting}${place ? ', ' + place : ''}</span>
+                        <span style="font-style:italic;">${locationLine}</span>
                         ${authorsHtml}</p>
                     </div>
                 `;
