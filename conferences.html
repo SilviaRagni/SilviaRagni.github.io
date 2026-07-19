@@ -71,30 +71,43 @@
         // 1. Logica Zotero (Talks & Organised)
         async function fetchZotero(collectionKey, containerId, isOrg = false) {
             try {
-                // Rimosso &include=attachments per tornare alla struttura dati corretta
+                // Chiamata standard: Zotero restituisce gli elementi. Gli allegati sono elementi separati.
                 const response = await fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/${collectionKey}/items?format=json&limit=50`, { headers });
-                const data = await response.json();
+                const items = await response.json();
+                
+                // Mappiamo gli elementi (items) e cerchiamo i loro allegati (children)
+                // Nota: Per avere gli allegati, dobbiamo fare una seconda chiamata specifica o filtrare
                 const container = document.getElementById(containerId);
                 
-                if (container && Array.isArray(data)) {
-                    if (isOrg && data.length > 0) document.getElementById("organized-section").style.display = "block";
+                if (container && Array.isArray(items)) {
+                    if (isOrg && items.length > 0) document.getElementById("organized-section").style.display = "block";
                     
-                    container.innerHTML = data.map(item => {
+                    container.innerHTML = ""; // Puliamo il contenitore
+                    
+                    for (const item of items) {
                         const d = item.data;
-                        // Logica per visualizzare luogo e conferenza
+                        if (d.itemType === "attachment" || d.itemType === "note") continue;
+
                         const meeting = d.meetingName || "";
                         const place = d.place || "";
-                        const info = [meeting, place].filter(Boolean).join(", ");
                         const meetingDisplay = d.url ? `<a href="${d.url}" target="_blank">${meeting}</a>` : meeting;
+
+                        // Cerchiamo l'allegato PDF associato a questo specifico item
+                        // Zotero API: carichiamo i "children" dell'item corrente
+                        const childRes = await fetch(`https://api.zotero.org/users/${zoteroUserId}/items/${item.key}/children?format=json`, { headers });
+                        const children = await childRes.json();
+                        const pdf = children.find(c => c.data.contentType === "application/pdf");
                         
-                        return `
+                        let slidesLink = pdf ? ` <a href="${pdf.links.enclosure.href}" target="_blank" style="font-size:0.8em; text-decoration: underline;">(slides)</a>` : "";
+
+                        container.innerHTML += `
                             <div class="conference-item" style="margin-bottom: 15px;">
                                 <p><strong>${d.date || ""}</strong><br>
                                 ${d.title}<br>
-                                <span style="font-style:italic;">${meetingDisplay}${place ? ', ' + place : ''}</span></p>
+                                <span style="font-style:italic;">${meetingDisplay}${place ? ', ' + place : ''}</span>${slidesLink}</p>
                             </div>
                         `;
-                    }).join("");
+                    }
                 }
             } catch (e) { console.error("Zotero Error:", e); }
         }
