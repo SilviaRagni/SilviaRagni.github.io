@@ -1,5 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Conferences | Silvia Ragni</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <a href="index.html" class="logo">Silvia Ragni</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="conferences.html" class="active">Conferences</a>
+            <a href="cv.html">CV</a>
+        </nav>
+    </div>
+</header>
+
 <main>
-    <!-- Sezione Intestazione + Foto -->
+    <!-- Sezione Intestazione con Foto a destra -->
     <section class="hero-conference">
         <div class="narrow flex-header-photo">
             <div class="text-content">
@@ -15,7 +43,7 @@
     </section>
 
     <!-- Sezione Talks (da Zotero) -->
-    <section class="narrow">
+    <section id="talks-section" class="narrow">
         <h2>Talks</h2>
         <div id="talks-container">Loading talks...</div>
     </section>
@@ -31,9 +59,17 @@
         <img src="images/India_sea.jpeg" alt="India Sea">
     </section>
 
-    <!-- Sezione Attended -->
-    <section class="narrow">
+    <!-- Sezione Attended (da conferences.json) -->
+    <section id="attended-section" class="narrow">
         <h2>Attended conferences</h2>
-        <div id="travel-container">Loading conferences...</div>
+        <div id="attended-container">Loading conferences...</div>
     </section>
 </main>
+
+<footer>
+    <p>© Silvia Ragni</p>
+</footer>
+
+<script src="js/conferences.js"></script>
+</body>
+</html>
