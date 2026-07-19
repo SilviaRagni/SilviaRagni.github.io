@@ -1,56 +1,52 @@
 {
-  "talks": [
-    {
-      "date": "2026",
-      "title": "Reconstruction of F-cohomological field theories on moduli of compact type",
-      "event": "Matamzee 2026",
-      "location": "",
-      "website": "",
-      "slides": "files/talks/matamzee2026.pdf"
-    }
-  ],
-
+  
   "travels": [
     {
-      "date": "2026",
-      "conference": "Regular Program on Geometry and Physics",
+      "date": "07-11/09/2026",
+      "conference": "Two Centuries of Moduli",
+      "location": "Humboldt-Universität zu Berlin, Berlin, Germany",
+      "website": "https://www.math.hu-berlin.de/~www-ag/Website_TwoCenturiesOfModuli/TwoCenturiesOfModuli.html"
+    }
+    {
+      "date": "02-04/09/2026",
+      "conference": "Ricercatori in Algebra e Geometria",
+      "location": "Università degli Studi di Padova, Padova, Italy",
+      "website": "https://sites.google.com/view/ricercatorialgeometria/home"
+    },
+    
+    {
+      "date": "24-28/08/2026",
+      "conference": "Simons School on Moduli of Curves, Abelian Varieties and K3 Surfaces",
+      "location": "Rényi Institute, Budapest, Hungary",
+      "website": "https://erdoscenter.renyi.hu/events/simons-school-moduli-curves-abelian-varieties-and-k3-surfaces"
+    },
+    
+    {
+      "date": "22/06-03/0/2026",
+      "conference": "Refinements in Enumerative Geometry and Physics",
       "location": "ICTS, Bengaluru, India",
       "website": "https://www.icts.res.in/program/regp-2026"
     },
 
     {
-      "date": "2026",
-      "conference": "Simons School on Moduli of Curves, Abelian Varieties and K3 Surfaces",
-      "location": "Rényi Institute, Budapest, Hungary",
-      "website": "https://erdoscenter.renyi.hu/events/simons-school-moduli-curves-abelian-varieties-and-k3-surfaces"
-    },
-
-    {
-      "date": "2026",
-      "conference": "GERCAT 2026",
-      "location": "Catania, Italy",
+      "date": "09-12/06/2026",
+      "conference": "Enumerative geometry, rationality, derived categories and interactions",
+      "location": "Institut de Mathématique d'Orsay, Orsay, France",
       "website": "https://sites.google.com/view/gercatd26"
     },
 
     {
-      "date": "2026",
+      "date": "27-29/05/2026",
       "conference": "A Celebration of Women in Mathematics",
-      "location": "Berlin, Germany",
+      "location": Humboldt-Universität zu Berlin, Berlin, Germany",
       "website": "https://sites.google.com/view/a-celebration-of-women-in-math/startseite"
     },
 
     {
-      "date": "2026",
-      "conference": "Algebraic Geometry in Hannover",
-      "location": "Hannover, Germany",
+      "date": "16_20/03/2026",
+      "conference": "Riemann 200: Mathematics and Physics",
+      "location": "Leibniz Universität, Hannover, Germany",
       "website": "https://konferenz.uni-hannover.de/event/173/"
-    },
-
-    {
-      "date": "2026",
-      "conference": "Incontro dei Ricercatori di Algebra e Geometria",
-      "location": "Italy",
-      "website": "https://sites.google.com/view/ricercatorialgeometria/home"
-    }
+    } 
   ]
 }
