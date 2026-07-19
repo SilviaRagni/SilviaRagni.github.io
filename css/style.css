@@ -698,22 +698,33 @@ footer p{
 
 /* Foto a destra come nella Home (420px) */
 /* Layout affiancato Header + Foto */
-.flex-header-photo {
-    display: flex !important;
-    align-items: center !important; /* Cambiato da flex-start a center */
-    gap: 40px !important;
-    margin-bottom: 40px !important;
+/* --- LAYOUT ARMONIZZATO CON LA HOME --- */
+
+.conferences-header-layout {
+    display: grid !important;
+    grid-template-columns: 1fr 420px !important; /* Identico alla Home */
+    gap: 70px !important; /* Identico alla Home */
+    align-items: center !important; /* Forza il centraggio verticale perfetto */
+    margin-bottom: 90px !important;
 }
-.text-content { flex: 1 !important; } 
-.photo-content { 
-    width: 420px !important; 
-    flex-shrink: 0 !important; 
-    text-align: center; 
+
+.text-content { 
+    max-width: 520px !important; /* Identico alla Home */
 }
+
 .photo-content img { 
     width: 100% !important; 
     border-radius: 10px !important; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important; 
+    object-fit: cover !important; /* Per mantenere lo stesso stile */
+}
+
+/* Responsive mobile identico alla Home */
+@media (max-width: 900px) {
+    .conferences-header-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 50px !important;
+    }
 }
 .caption { font-size: 0.85em !important; color: #666 !important; margin-top: 10px !important; font-style: italic !important; }
 
@@ -731,10 +742,4 @@ footer p{
     height: 250px !important; /* Altezza aggiornata a 250px */
     object-fit: cover !important; 
     object-position: 60% 40% !important; /* Regola il 30% per il centraggio verticale */
-}
-
-@media (max-width: 900px) {
-    .flex-header-photo { flex-direction: column !important; }
-    .photo-content { width: 100% !important; } 
-    .sea-strip { padding: 30px 0 !important; }
 }
