@@ -693,3 +693,23 @@ footer p{
         height: auto; /* Torna a mostrare l'intera foto su mobile */
     }
 }
+
+/* Layout affiancato testo/foto */
+.flex-header-photo {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+}
+.text-content { flex: 2; }
+.photo-content { flex: 1; text-align: center; }
+.photo-content img { width: 100%; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.caption { font-size: 0.85em; color: #666; margin-top: 10px; font-style: italic; }
+
+/* Striscia mare */
+.sea-strip { width: 100%; padding: 60px 0; }
+.sea-strip img { width: 100%; height: 150px; object-fit: cover; object-position: center; }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .flex-header-photo { flex-direction: column; }
+}
