@@ -1,121 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Inserisci questo dentro l'head per nascondere la pagina a Google -->
-<meta name="robots" content="noindex, nofollow">
-
-    <title>Conferences | Silvia Ragni</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
-
-</head>
-
-<body>
-
-<header>
-
-    <div class="container">
-
-        <a href="index.html" class="logo">
-
-            Silvia Ragni
-
-        </a>
-
-        <nav>
-
-            <a href="index.html">Home</a>
-
-            <a href="research.html">Research</a>
-
-            <a href="conferences.html" class="active">
-                Conferences
-            </a>
-
-            <a href="cv.html">CV</a>
-
-        </nav>
-
-    </div>
-
-</header>
-
 <main>
-
-<section class="hero">
-
-    <div class="narrow">
-
-        <h1>Conferences</h1>
-
-        <p>
-
-            One of the things I really like of my job is travelling. 
-            
-        </p>
-        <p>
-            Here you can find a list of my talks and of the recent or future conferences I am attending.
-
-        </p>
-
-    </div>
-
-</section>
-
-
- <!-- VISIBILE SUL SITO: Sezione Talks -->
-<section>
-        <div class="narrow">
-            <h2>Talks</h2>
-            <ul class="talks-list" id="site-talks-list">
-                <li style="color:#777; font-style:italic;">Loading talks...</li>
-            </ul>
+    <!-- Sezione Intestazione + Foto -->
+    <section class="hero-conference">
+        <div class="narrow flex-header-photo">
+            <div class="text-content">
+                <h1>Conferences</h1>
+                <p>One of the things I really like of my job is travelling.</p>
+                <p>Here you can find a list of my talks and of the recent or future conferences I am attending.</p>
+            </div>
+            <div class="photo-content">
+                <img src="images/India_Malavika.jpeg" alt="Conferences in India">
+                <p class="caption">DIDASCALIA</p>
+            </div>
         </div>
     </section>
-</main>
 
+    <!-- Sezione Talks (da Zotero) -->
+    <section class="narrow">
+        <h2>Talks</h2>
+        <div id="talks-container">Loading talks...</div>
+    </section>
 
-<section>
+    <!-- Sezione Organised (Condizionale) -->
+    <section id="organized-section" class="narrow" style="display:none;">
+        <h2>Organised conferences</h2>
+        <div id="organized-container"></div>
+    </section>
 
-    <div class="narrow">
+    <!-- Foto Mare (Striscia) -->
+    <section class="sea-strip">
+        <img src="images/India_sea.jpeg" alt="India Sea">
+    </section>
 
+    <!-- Sezione Attended -->
+    <section class="narrow">
         <h2>Attended conferences</h2>
-
-        <div id="travel">
-
-            <p>Loading conferences...</p>
-
-        </div>
-
-    </div>
-
-</section>
-
+        <div id="travel-container">Loading conferences...</div>
+    </section>
 </main>
-
-
-<footer>
-
-    <p>
-
-        © Silvia Ragni
-
-    </p>
-
-</footer>
-
-<script src="js/conferences.js"></script>
-
-</body>
-
-</html>
