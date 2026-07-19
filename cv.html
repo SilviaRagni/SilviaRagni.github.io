@@ -179,6 +179,7 @@
             pdfPubContainer.innerHTML = hasPubs ? pubsHtml : "<p style='color:#777; font-style:italic;'>No publications yet.</p>";
 
             // 2. Talk
+            // 2. Talk
             const pdfTalksContainer = document.getElementById("pdf-talks-list");
             let talksHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
             let hasTalks = false;
@@ -187,7 +188,15 @@
                     const meta = item.data;
                     if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
                     hasTalks = true;
-                    talksHtml += `<li><strong>"${meta.title}"</strong>, ${meta.meetingName || "Seminar"} – ${meta.place || ""}, (${meta.date || ""}).</li>`;
+                    
+                    // Rimuoviamo "Seminar" se presente nel meetingName
+                    const meeting = (meta.meetingName && meta.meetingName !== "Seminar") ? meta.meetingName + " – " : "";
+                    
+                    // Puliamo la data: rimuoviamo le parentesi se ci sono
+                    let dateStr = meta.date || "";
+                    dateStr = dateStr.replace(/[()]/g, ''); 
+                    
+                    talksHtml += `<li><strong>"${meta.title}"</strong>, ${meeting}${meta.place || ""}, ${dateStr}.</li>`;
                 });
             }
             talksHtml += "</ul>";
