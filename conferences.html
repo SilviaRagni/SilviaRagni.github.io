@@ -122,15 +122,34 @@
                 }
                 const authorsHtml = (isOrg && authors) ? `<br><span style="font-size:0.9em; color:#555;">Organized by: ${authors}</span>` : "";
 
-                // 5. Stampa finale - USA locationLine qui sotto!
-                container.innerHTML += `
-                    <div class="conference-item" style="margin-bottom: 20px;">
-                        <p><strong>${d.date || ""}</strong><br>
-                        ${titleDisplay}${slidesLink}<br>
-                        <span style="font-style:italic;">${locationLine}</span>
-                        ${authorsHtml}</p>
-                    </div>
-                `;
+                // 1. Logica dei Link (da inserire nel ciclo for)
+let titleDisplay = d.title;
+let meetingDisplay = meeting; // 'meeting' è quello calcolato prima
+
+if (isTalk) {
+    // Se è un talk, il link va sul nome dell'evento
+    if (d.url) {
+        meetingDisplay = `<a href="${d.url}" target="_blank">${meeting}</a>`;
+    }
+} else if (isConf) {
+    // Se è atto di convegno, il link va sul titolo principale
+    if (d.url) {
+        titleDisplay = `<a href="${d.url}" target="_blank">${d.title}</a>`;
+    }
+}
+
+// 2. Costruzione della riga evento/luogo
+const locationLine = (meetingDisplay && place) ? `${meetingDisplay}, ${place}` : (meetingDisplay || place || "");
+
+// 3. Stampa finale (uguale a prima, usa le nuove variabili)
+container.innerHTML += `
+    <div class="conference-item" style="margin-bottom: 20px;">
+        <p><strong>${d.date || ""}</strong><br>
+        ${titleDisplay}${slidesLink}<br>
+        <span style="font-style:italic;">${locationLine}</span>
+        ${authorsHtml}</p>
+    </div>
+`;
             }
         }
     } catch (e) { console.error("Zotero Error:", e); }
