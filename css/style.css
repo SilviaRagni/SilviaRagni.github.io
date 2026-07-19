@@ -698,34 +698,19 @@ footer p{
 
 /* Foto a destra come nella Home (420px) */
 /* Layout affiancato Header + Foto */
-/* --- LAYOUT ARMONIZZATO CON LA HOME --- */
-
-.conferences-header-layout {
-    display: grid !important;
-    grid-template-columns: 1fr 420px !important; /* Identico alla Home */
-    gap: 70px !important; /* Identico alla Home */
-    align-items: center !important; /* Forza il centraggio verticale perfetto */
-    margin-bottom: 90px !important;
-}
-
-.text-content { 
-    max-width: 520px !important; /* Identico alla Home */
-}
-
-.photo-content img { 
-    width: 100% !important; 
-    border-radius: 10px !important; 
-    object-fit: cover !important; /* Per mantenere lo stesso stile */
-}
-
-/* Responsive mobile identico alla Home */
-@media (max-width: 900px) {
-    .conferences-header-layout {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 50px !important;
-    }
-}
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-text">
+            <h1>Conferences</h1>
+            <p>One of the things I really like of my job is travelling.</p>
+            <p>Here you can find a list of my talks and of the recent or future conferences I am attending.</p>
+        </div>
+        <div class="hero-image">
+            <img src="TUA_IMMAGINE.jpg" alt="Conferences">
+            <p class="caption">Kozhikode, India, 2026</p>
+        </div>
+    </div>
+</section>
 .caption { font-size: 0.85em !important; color: #666 !important; margin-top: 10px !important; font-style: italic !important; }
 
 /* Striscia mare centrata sul volto (altezza 250px) */
