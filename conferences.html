@@ -68,40 +68,71 @@
         const zoteroApiKey = "Xwdf3UKdZ4bRuEjs0LlsJg3v"; 
         const headers = { "Zotero-API-Key": zoteroApiKey };
 
-        // 1. Caricamento Zotero (Talks & Organised)
+        // 1. Logica Zotero (Talks & Organised)
         async function fetchZotero(collectionKey, containerId, isOrg = false) {
             try {
-                const response = await fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/${collectionKey}/items?format=json&limit=50`, { headers });
+                const response = await fetch(`https://api.zotero.org/users/${zoteroUserId}/collections/${collectionKey}/items?format=json&include=attachments&limit=50`, { headers });
                 const data = await response.json();
                 const container = document.getElementById(containerId);
+                
                 if (container && data.length > 0) {
                     if (isOrg) document.getElementById("organized-section").style.display = "block";
-                    container.innerHTML = data.map(item => `
-                        <div class="conference-item">
-                            <p><strong>${item.data.date || ""}</strong><br>${item.data.title}</p>
-                        </div>
-                    `).join("");
+                    
+                    container.innerHTML = data.map(item => {
+                        const d = item.data;
+                        const meeting = d.meetingName || "Seminar";
+                        const place = d.place ? `, ${d.place}` : "";
+                        const meetingDisplay = d.url ? `<a href="${d.url}" target="_blank">${meeting}</a>` : meeting;
+                        
+                        let slidesLink = "";
+                        if (item.attachments && item.attachments.length > 0) {
+                            const pdf = item.attachments.find(a => a.data.contentType === "application/pdf");
+                            if (pdf) {
+                                slidesLink = ` <a href="${pdf.data.url}" target="_blank" style="font-size:0.8em;">(slides)</a>`;
+                            }
+                        }
+
+                        return `
+                            <div class="conference-item" style="margin-bottom: 15px;">
+                                <p><strong>${d.date || ""}</strong><br>
+                                ${d.title}<br>
+                                <span style="font-style:italic;">${meetingDisplay}${place}</span>${slidesLink}</p>
+                            </div>
+                        `;
+                    }).join("");
                 }
             } catch (e) { console.error("Zotero Error:", e); }
         }
 
-        // 2. Caricamento JSON locale
+        // 2. Logica JSON (Attended Conferences - LA PARTE CHE NON DEVO DIMENTICARE)
         async function fetchLocal() {
             try {
                 const res = await fetch("data/conferences.json");
                 const data = await res.json();
-                document.getElementById("attended-container").innerHTML = data.travels.map(conf => `
-                    <div class="conference-item">
-                        <p><strong>${conf.date}</strong><br><a href="${conf.website}" target="_blank">${conf.conference}</a><br><em>${conf.location}</em></p>
-                    </div>
-                `).join("");
-            } catch (e) { console.error("JSON Error:", e); }
+                const container = document.getElementById("attended-container");
+                if (container && data.travels) {
+                    container.innerHTML = data.travels.map(conf => `
+                        <div class="conference-item" style="margin-bottom: 15px;">
+                            <p>
+                                <strong>${conf.date}</strong><br>
+                                <a href="${conf.website}" target="_blank">${conf.conference}</a><br>
+                                <em>${conf.location}</em>
+                            </p>
+                        </div>
+                    `).join("");
+                }
+            } catch (e) { 
+                console.error("JSON Error:", e);
+                document.getElementById("attended-container").innerHTML = "Error loading conferences.";
+            }
         }
 
-        // Esecuzione
-        await fetchZotero("GMH2XZNB", "talks-container");
-        await fetchZotero("DZDN49EL", "organized-container", true);
-        await fetchLocal();
+        // Esecuzione di tutto
+        await Promise.all([
+            fetchZotero("GMH2XZNB", "talks-container"),
+            fetchZotero("DZDN49EL", "organized-container", true),
+            fetchLocal()
+        ]);
     });
 </script>
 </body>
