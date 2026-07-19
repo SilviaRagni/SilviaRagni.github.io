@@ -203,30 +203,36 @@
             pdfTalksContainer.innerHTML = hasTalks ? talksHtml : "<p style='color:#777; font-style:italic;'>No talks given yet.</p>";
 
             // 3. Conferenze (Mostra la sezione intera SOLO se ci sono dati reali)
-            const pdfConfsSection = document.getElementById("pdf-conferences-section");
-            const pdfConfsContainer = document.getElementById("pdf-conferences-list");
-            let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
-            let hasConfs = false;
-            
-            if (Array.isArray(confsData)) {
-                confsData.forEach(item => {
-                    const meta = item.data;
-                    if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
-                    hasConfs = true;
-                    confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, (${meta.date || ""}) — <em>Organizer / Organizing Committee</em></li>`;
-                });
-            }
-            confsHtml += "</ul>";
+           // 3. Conferenze (Sostituisci questo blocco nel tuo script)
+const pdfConfsSection = document.getElementById("pdf-conferences-section");
+const pdfConfsContainer = document.getElementById("pdf-conferences-list");
+let confsHtml = "<ul style='padding-left: 20px; margin: 5px 0;'>";
+let hasConfs = false;
 
-            if (hasConfs) {
-                pdfConfsContainer.innerHTML = confsHtml;
-                pdfConfsSection.style.display = "block"; // Rende visibile la sezione nel PDF
-            } else {
-                pdfConfsSection.style.display = "none";  // La tiene totalmente nascosta ed esclusa dal PDF
-            }
+if (Array.isArray(confsData)) {
+    confsData.forEach(item => {
+        const meta = item.data;
+        if (!meta || meta.itemType === "attachment" || meta.itemType === "note") return;
+        hasConfs = true;
+        
+        // Estrazione Organizzatori
+        const organisers = meta.creators ? meta.creators.map(c => `${c.firstName} ${c.lastName}`).join(", ") : "";
+        
+        // Pulizia data (rimozione parentesi)
+        const dateStr = (meta.date || "").replace(/[()]/g, '');
+        
+        // Riga con il formato richiesto
+        confsHtml += `<li style="margin-bottom: 6px;"><strong>${meta.title}</strong>, ${meta.place || ""}, ${dateStr} ${organisers ? '— <em>Organisers: ' + organisers + '</em>' : ''}</li>`;
+        });
+        }
+        confsHtml += "</ul>";
 
-        })
-        .catch(error => {
+        if (hasConfs) {
+            pdfConfsContainer.innerHTML = confsHtml;
+            pdfConfsSection.style.display = "block";
+        } else {
+            pdfConfsSection.style.display = "none";
+        }        .catch(error => {
             console.error("Zotero Sync Error:", error);
             document.getElementById("pdf-publications").innerHTML = "<p>Data temporarily unavailable.</p>";
         });
