@@ -730,7 +730,7 @@ footer p{
     width: 100% !important;
     height: 250px !important; /* Altezza aggiornata a 250px */
     object-fit: cover !important; 
-    object-position: 40% 20% !important; /* Regola il 30% per il centraggio verticale */
+    object-position: 60% 40% !important; /* Regola il 30% per il centraggio verticale */
 }
 
 @media (max-width: 900px) {
