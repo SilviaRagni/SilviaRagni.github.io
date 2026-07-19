@@ -94,17 +94,20 @@
 
                         // Cerchiamo l'allegato PDF associato a questo specifico item
                         // Zotero API: carichiamo i "children" dell'item corrente
+
+                        // Cerchiamo l'allegato PDF associato a questo specifico item
                         const childRes = await fetch(`https://api.zotero.org/users/${zoteroUserId}/items/${item.key}/children?format=json`, { headers });
                         const children = await childRes.json();
                         const pdf = children.find(c => c.data.contentType === "application/pdf");
                         
-                        let slidesLink = pdf ? ` <a href="${pdf.links.enclosure.href}" target="_blank" style="font-size:0.8em; text-decoration: underline;">(slides)</a>` : "";
+                        // AGGIORNAMENTO: aggiunto margin-left: 10px per staccarlo dal titolo
+                        let slidesLink = pdf ? ` <a href="${pdf.links.enclosure.href}" target="_blank" style="font-size:0.8em; margin-left: 10px; text-decoration: underline;">(slides)</a>` : "";
 
                         container.innerHTML += `
                             <div class="conference-item" style="margin-bottom: 15px;">
                                 <p><strong>${d.date || ""}</strong><br>
-                                ${d.title}<br>
-                                <span style="font-style:italic;">${meetingDisplay}${place ? ', ' + place : ''}</span>${slidesLink}</p>
+                                ${d.title}${slidesLink}<br> 
+                                <span style="font-style:italic;">${meetingDisplay}${place ? ', ' + place : ''}</span></p>
                             </div>
                         `;
                     }
